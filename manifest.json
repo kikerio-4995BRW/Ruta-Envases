@@ -1,22 +1,9 @@
 {
   "name": "Ruta Envases",
   "short_name": "Rutas",
-  "start_url": "./index.html",
+  "start_url": "/Ruta-Envases/",
   "display": "standalone",
-  "background_color": "#1a1a1a",
-  "theme_color": "#1a1a1a",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/3299/3299935.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://cdn-icons-png.flaticon.com/192/3299/3299935.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ]
+  "background_color": "#3730d4",
+  "theme_color": "#3730d4",
+  "orientation": "portrait"
 }
