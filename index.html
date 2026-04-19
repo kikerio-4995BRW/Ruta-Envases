@@ -24,644 +24,414 @@
     --gris-fondo: #f4f4f8;
     --gris-borde: #e0e0ea;
     --texto: #1a1a2e;
-    --texto-suave: #7070a0;
-    --verde: #22c55e;
-    --rojo: #ef4444;
-    --amarillo: #f59e0b;
-    --naranja: #f97316;
+    --texto-secundario: #6b6b83;
+    --blanco: #ffffff;
+    --rojo: #e63946;
+    --verde: #2a9d8f;
+    --amarillo: #f4a261;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html { height: 100%; }
-  body { font-family: 'Barlow', sans-serif; background: var(--gris-fondo); color: var(--texto); height: 100%; overflow: hidden; position: fixed; width: 100%; }
-
-  .pantalla { display: none; position: fixed; inset: 0; flex-direction: column; background: var(--gris-fondo); }
-  .pantalla.activa { display: flex; }
-  .scroll-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-
-  .header { background: var(--azul); color: white; padding: 16px 20px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
-  .header h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
-  .btn-back { background: rgba(255,255,255,0.2); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .btn-back:active { background: rgba(255,255,255,0.35); }
-
-  #p-inicio { background: var(--azul); }
-  .inicio-hero { padding: 0; color: white; }
-  .portada-img { width: 100%; margin-bottom: 0; position: relative; }
-  .portada-img img { width: 100%; height: auto; display: block; }
-  .portada-texto { position: absolute; top: 20px; left: 20px; right: 20px; }
-  .portada-titulo { font-family: "Barlow Condensed", sans-serif; font-size: 13vw; font-weight: 800; color: #1a1a1a; letter-spacing: 3px; text-transform: uppercase; line-height: 1; text-shadow: 3px 3px 8px rgba(255,255,255,0.7); }
-  .portada-subtitulo { font-family: "Barlow Condensed", sans-serif; font-size: 4.5vw; font-weight: 700; color: #1a1a1a; letter-spacing: 5px; text-transform: uppercase; margin-top: 8px; text-shadow: 2px 2px 6px rgba(255,255,255,0.7); }
-  .inicio-hero h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; line-height: 1; margin-bottom: 6px; }
-  .inicio-hero p { font-size: 13px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; opacity: 0.7; margin-bottom: 28px; }
-  .inicio-body { background: var(--gris-fondo); border-radius: 28px 28px 0 0; padding: 28px 20px 40px; }
-  .inicio-body h2 { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-suave); margin-bottom: 14px; }
-
-  .btn-grande { width: 100%; background: var(--azul); color: white; border: none; border-radius: 16px; padding: 20px 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; gap: 14px; margin-bottom: 12px; transition: all 0.15s; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
-  .btn-grande:active { transform: scale(0.98); background: var(--azul-oscuro); }
-  .btn-grande .icono { font-size: 24px; }
-  .btn-grande.secundario { background: white; color: var(--azul); box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 2px solid var(--gris-borde); }
-  .btn-grande.secundario:active { background: var(--gris-fondo); }
-  .btn-grande.naranja { background: var(--naranja); box-shadow: 0 4px 16px rgba(249,115,22,0.3); }
-  .btn-grande.naranja:active { background: #ea6c0a; }
-
-  .lista-botones { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
-
-  .buscador-wrap { padding: 14px 16px; background: white; border-bottom: 1px solid var(--gris-borde); flex-shrink: 0; }
-  .buscador { width: 100%; background: var(--gris-fondo); border: none; border-radius: 12px; padding: 12px 16px 12px 40px; font-family: 'Barlow', sans-serif; font-size: 16px; color: var(--texto); outline: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237070a0' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 12px center; }
-
-  .pueblo-item { display: flex; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--gris-borde); background: white; cursor: pointer; gap: 14px; }
-  .pueblo-item:active { background: #f0f0f0; }
-  .pueblo-icono { font-size: 22px; }
-  .pueblo-info { flex: 1; }
-  .pueblo-nombre { font-size: 16px; font-weight: 600; color: var(--texto); }
-  .pueblo-meta { font-size: 12px; color: var(--texto-suave); margin-top: 2px; }
-  .pueblo-chevron { color: var(--texto-suave); font-size: 18px; }
-
-  .detalle-pad { padding: 20px; }
-  .detalle-header-info { background: white; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-  .detalle-titulo { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; color: var(--texto); text-transform: uppercase; letter-spacing: 1px; }
-  .detalle-subtitulo { font-size: 14px; color: var(--texto-suave); margin-top: 2px; font-weight: 600; }
-  .detalle-fila { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--gris-borde); }
-  .detalle-fila:last-child { border-bottom: none; }
-  .detalle-label { font-size: 14px; color: var(--texto-suave); font-weight: 600; }
-  .detalle-valor { font-size: 16px; font-weight: 700; color: var(--texto); }
-
-  .seccion-titulo { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-suave); margin-bottom: 12px; margin-top: 20px; }
-  .niveles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 8px; }
-  .btn-nivel { border: 2px solid var(--gris-borde); background: white; border-radius: 12px; padding: 14px 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 800; color: var(--texto); cursor: pointer; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all 0.15s; }
-  .btn-nivel .nivel-emoji { font-size: 20px; }
-  .btn-nivel:active { transform: scale(0.96); }
-  .btn-nivel.seleccionado { background: var(--azul); border-color: var(--azul); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-
-  .textarea-incidencias { width: 100%; background: white; border: 2px solid var(--gris-borde); border-radius: 12px; padding: 14px; font-family: 'Barlow', sans-serif; font-size: 15px; color: var(--texto); resize: none; height: 90px; outline: none; transition: border-color 0.2s; }
-  .textarea-incidencias:focus { border-color: var(--azul); }
-  .textarea-incidencias::placeholder { color: var(--texto-suave); }
-
-  .btn-recogido { width: 100%; background: var(--azul); color: white; border: none; border-radius: 16px; padding: 22px; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; margin-top: 20px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.15s; box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
-  .btn-recogido:active { transform: scale(0.98); background: var(--azul-oscuro); }
-  .btn-recogido.guardado { background: var(--verde); box-shadow: 0 6px 20px rgba(34,197,94,0.35); }
-
-  .historial-header { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; margin-bottom: 12px; }
-  .historial-item { background: white; border-radius: 12px; padding: 12px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); margin-bottom: 8px; }
-  .historial-item-fila { display: flex; justify-content: space-between; align-items: center; }
-  .historial-fecha { font-size: 13px; color: var(--texto-suave); font-weight: 600; }
-  .historial-nivel { font-size: 13px; font-weight: 700; background: var(--azul); color: white; padding: 3px 10px; border-radius: 20px; }
-  .historial-nivel.desbordado { background: var(--rojo); }
-  .historial-nivel.vacio { background: var(--texto-suave); }
-  .historial-incidencia { font-size: 12px; color: var(--amarillo); margin-top: 4px; font-weight: 600; }
-  .btn-borrar-entrada { background: none; border: none; color: var(--rojo); font-size: 18px; cursor: pointer; padding: 4px 6px; border-radius: 8px; margin-left: 8px; flex-shrink: 0; }
-  .btn-borrar-entrada:active { background: #fff0f0; }
-
-  .historial-grupo-titulo { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-suave); margin: 16px 0 8px; }
-  .historial-general-item { background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-  .hgi-fila { display: flex; justify-content: space-between; align-items: flex-start; }
-  .hgi-pueblo { font-size: 16px; font-weight: 700; }
-  .hgi-meta { font-size: 13px; color: var(--texto-suave); margin-top: 4px; }
-  .hgi-nivel { display: inline-block; font-size: 12px; font-weight: 700; background: var(--azul); color: white; padding: 2px 10px; border-radius: 20px; margin-top: 6px; }
-  .hgi-nivel.desbordado { background: var(--rojo); }
-  .hgi-nivel.vacio { background: var(--texto-suave); }
-  .hgi-acciones { display: flex; align-items: center; gap: 8px; }
-
-  /* ── DESCARGAS ── */
-  .descarga-pad { padding: 20px; }
-  .input-kilos-wrap { background: white; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-  .input-kilos-label { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-suave); margin-bottom: 12px; display: block; }
-  .input-kilos {
-    width: 100%; background: var(--gris-fondo); border: 2px solid var(--gris-borde);
-    border-radius: 12px; padding: 18px; font-family: 'Barlow Condensed', sans-serif;
-    font-size: 36px; font-weight: 800; color: var(--texto); outline: none;
-    text-align: center; transition: border-color 0.2s;
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { 
+    margin: 0; 
+    font-family: 'Barlow', sans-serif; 
+    background-color: var(--gris-fondo); 
+    color: var(--texto);
+    padding-bottom: 80px;
+    line-height: 1.4;
   }
-  .input-kilos:focus { border-color: var(--naranja); }
-  .input-kilos::placeholder { color: var(--gris-borde); font-size: 28px; }
-  .input-notas-descarga { width: 100%; background: var(--gris-fondo); border: 2px solid var(--gris-borde); border-radius: 12px; padding: 14px; font-family: 'Barlow', sans-serif; font-size: 15px; color: var(--texto); resize: none; height: 80px; outline: none; margin-top: 12px; transition: border-color 0.2s; }
-  .input-notas-descarga:focus { border-color: var(--naranja); }
-  .input-notas-descarga::placeholder { color: var(--texto-suave); }
 
-  .btn-descarga {
-    width: 100%; background: var(--naranja); color: white; border: none;
-    border-radius: 16px; padding: 22px;
-    font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800;
-    letter-spacing: 3px; text-transform: uppercase; cursor: pointer;
-    margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 10px;
-    transition: all 0.15s; box-shadow: 0 6px 20px rgba(249,115,22,0.35);
+  .portada-container { width: 100%; height: 200px; overflow: hidden; position: relative; }
+  .portada-container img { width: 100%; height: 100%; object-fit: cover; }
+  .portada-overlay { 
+    position: absolute; bottom: 0; left: 0; right: 0; 
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    padding: 20px; color: white;
   }
-  .btn-descarga:active { transform: scale(0.98); background: #ea6c0a; }
-  .btn-descarga.guardado { background: var(--verde); box-shadow: 0 6px 20px rgba(34,197,94,0.35); }
+  .portada-overlay h1 { margin: 0; font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
 
-  .btn-historial-descarga {
-    width: 100%; background: white; color: var(--naranja); border: 2px solid var(--naranja);
-    border-radius: 16px; padding: 18px;
-    font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800;
-    letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    transition: all 0.15s;
+  header { background: var(--azul); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+  .stats-header { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; }
+
+  .tabs { display: flex; background: var(--blanco); padding: 5px; margin: 15px; border-radius: 12px; border: 1px solid var(--gris-borde); }
+  .tab { flex: 1; padding: 12px; text-align: center; font-weight: 700; font-size: 14px; border-radius: 8px; color: var(--texto-secundario); cursor: pointer; transition: 0.2s; text-transform: uppercase; }
+  .tab.active { background: var(--azul); color: var(--blanco); }
+
+  .section { display: none; padding: 0 15px; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card { background: var(--blanco); border-radius: 16px; padding: 20px; margin-bottom: 15px; border: 1px solid var(--gris-borde); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .card-title { font-weight: 800; font-size: 16px; margin-bottom: 15px; color: var(--azul); text-transform: uppercase; border-bottom: 2px solid var(--gris-fondo); padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+  label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 13px; color: var(--texto-secundario); text-transform: uppercase; }
+  select, input, textarea { 
+    width: 100%; padding: 14px; margin-bottom: 15px; border: 2px solid var(--gris-fondo); border-radius: 10px; 
+    font-size: 16px; font-family: 'Barlow', sans-serif; transition: 0.2s; background: #fcfcfd;
   }
-  .btn-historial-descarga:active { background: #fff7f0; }
+  select:focus, input:focus { border-color: var(--azul); outline: none; background: white; }
 
-  /* TOTALES */
-  .totales-card {
-    background: var(--naranja); border-radius: 16px; padding: 20px;
-    margin: 16px 16px 8px; color: white;
-    box-shadow: 0 4px 16px rgba(249,115,22,0.3);
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  button { 
+    width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; font-size: 16px; 
+    cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 10px;
   }
-  .totales-card-titulo { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; }
-  .totales-card-numero { font-family: 'Barlow Condensed', sans-serif; font-size: 48px; font-weight: 800; line-height: 1; }
-  .totales-card-unidad { font-size: 16px; font-weight: 600; opacity: 0.8; }
-  .totales-parciales { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 16px 16px; }
-  .totales-parcial { background: white; border-radius: 12px; padding: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); text-align: center; }
-  .totales-parcial-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--texto-suave); margin-bottom: 4px; }
-  .totales-parcial-valor { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; color: var(--naranja); }
+  .btn-primary { background: var(--azul); color: var(--blanco); }
+  .btn-primary:active { transform: scale(0.98); background: var(--azul-oscuro); }
+  .btn-outline { background: var(--blanco); color: var(--azul); border: 2px solid var(--azul); margin-top: 10px; }
+  .btn-danger { background: #fee2e2; color: var(--rojo); margin-top: 20px; }
 
-  .descarga-hist-item { background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-  .descarga-hist-fila { display: flex; justify-content: space-between; align-items: center; }
-  .descarga-hist-fecha { font-size: 13px; color: var(--texto-suave); font-weight: 600; }
-  .descarga-hist-kilos { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; color: var(--naranja); }
-  .descarga-hist-nota { font-size: 12px; color: var(--texto-suave); margin-top: 4px; }
+  .pueblo-item { 
+    padding: 15px; border-bottom: 1px solid var(--gris-fondo); display: flex; justify-content: space-between; align-items: center;
+  }
+  .pueblo-item:last-child { border-bottom: none; }
+  .pueblo-info h4 { margin: 0; font-size: 17px; font-weight: 700; }
+  .pueblo-info p { margin: 4px 0 0; font-size: 13px; color: var(--texto-secundario); font-weight: 600; }
 
-  .btn-exportar { margin: 0 16px 16px; background: white; color: var(--azul); border: 2px solid var(--azul); border-radius: 12px; padding: 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; flex-shrink: 0; }
-  .btn-exportar:active { background: #f0f0f0; }
-  .btn-exportar.naranja { color: var(--naranja); border-color: var(--naranja); }
-  .btn-exportar.naranja:active { background: #fff7f0; }
+  .status-dot { width: 12px; height: 12px; border-radius: 50%; background: #ddd; }
+  .status-done { background: var(--verde); box-shadow: 0 0 8px rgba(42,157,143,0.4); }
 
-  .empty-state { text-align: center; padding: 40px 20px; color: var(--texto-suave); }
-  .empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
-  .empty-state p { font-size: 15px; font-weight: 600; }
+  .historial-item { font-size: 14px; padding: 12px; border-bottom: 1px solid var(--gris-fondo); }
+  .historial-item:last-child { border-bottom: none; }
+  .historial-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: 700; }
+  .historial-meta { font-size: 12px; color: var(--texto-secundario); font-weight: 600; }
 
-  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1a1a2e; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 700; font-size: 14px; z-index: 9999; transition: transform 0.3s; white-space: nowrap; }
-  .toast.visible { transform: translateX(-50%) translateY(0); }
+  #toast { 
+    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); 
+    background: rgba(0,0,0,0.85); color: white; padding: 12px 24px; border-radius: 30px; 
+    font-size: 14px; font-weight: 700; display: none; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
 
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 8888; align-items: center; justify-content: center; }
-  .modal-overlay.visible { display: flex; }
-  .modal { background: white; border-radius: 20px; padding: 28px 24px; margin: 20px; max-width: 320px; width: 100%; text-align: center; }
-  .modal h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-  .modal p { font-size: 14px; color: var(--texto-suave); margin-bottom: 24px; }
-  .modal-botones { display: flex; gap: 12px; }
-  .modal-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800; cursor: pointer; letter-spacing: 1px; }
-  .modal-btn.cancelar { background: var(--gris-fondo); color: var(--texto); }
-  .modal-btn.confirmar { background: var(--rojo); color: white; }
+  .floating-total {
+    position: fixed; bottom: 20px; right: 20px; background: var(--verde); color: white;
+    padding: 15px 25px; border-radius: 50px; font-weight: 800; font-family: 'Barlow Condensed';
+    font-size: 20px; box-shadow: 0 8px 15px rgba(42,157,143,0.3); z-index: 90;
+  }
 </style>
 </head>
 <body>
 
-<!-- INICIO -->
-<div class="pantalla activa" id="p-inicio">
-  <div class="scroll-body">
-    <div class="inicio-hero">
-      <div class="portada-img">
-        <img src="portada.jpg" alt="Ruta Envases">
-        <div class="portada-texto">
-          <div class="portada-titulo">RUTA ENVASES</div>
-          <div class="portada-subtitulo">Temporada Baja</div>
-        </div>
+<div class="portada-container">
+  <img src="portada.jpg" alt="Ruta Envases">
+  <div class="portada-overlay">
+    <h1>Ruta Envases</h1>
+  </div>
+</div>
+
+<header>
+  <div class="stats-header" id="header-stats">CARGANDO...</div>
+  <div style="font-size: 20px;">🚛</div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('hoy')">Hoy</div>
+  <div class="tab" onclick="switchTab('registro')">Nueva</div>
+  <div class="tab" onclick="switchTab('descarga')">Descarga</div>
+  <div class="tab" onclick="switchTab('datos')">Datos</div>
+</div>
+
+<div id="section-hoy" class="section active">
+  <div class="card">
+    <div class="card-title">📍 Ruta del <span id="nombre-dia" style="margin-left:5px"></span></div>
+    <div id="lista-pueblos-hoy"></div>
+  </div>
+</div>
+
+<div id="section-registro" class="section">
+  <div class="card">
+    <div class="card-title">📝 Anotar Recogida</div>
+    <label>Pueblo</label>
+    <select id="reg-pueblo"></select>
+    
+    <label>Sector</label>
+    <select id="reg-sector">
+      <option value="Núcleo">Núcleo</option>
+      <option value="Extrarradio">Extrarradio</option>
+      <option value="Urbanizaciones">Urbanizaciones</option>
+      <option value="Polígono">Polígono</option>
+    </select>
+    
+    <div class="grid-2">
+      <div>
+        <label>Contenedores</label>
+        <input type="number" id="reg-cantidad" value="1" min="1">
+      </div>
+      <div>
+        <label>Nivel Llenado</label>
+        <select id="reg-nivel">
+          <option value="25%">25%</option>
+          <option value="50%">50%</option>
+          <option value="75%">75%</option>
+          <option value="100%">100%</option>
+          <option value="Exceso">Exceso (+100%)</option>
+        </select>
       </div>
     </div>
-    <div class="inicio-body">
-      <h2>Recogidas</h2>
-      <button class="btn-grande" onclick="ir('p-dias')"><span class="icono">📅</span> Por Día de Ruta</button>
-      <button class="btn-grande" onclick="ir('p-sectores')"><span class="icono">🗺️</span> Por Sector</button>
-      <button class="btn-grande secundario" onclick="ir('p-historial')"><span class="icono">📋</span> Ver Historial</button>
-      <h2 style="margin-top:20px">Descargas</h2>
-      <button class="btn-grande naranja" onclick="ir('p-descargas')"><span class="icono">🏭</span> Descargas</button>
-    </div>
+    
+    <label>Incidencias / Notas</label>
+    <textarea id="reg-incidencia" placeholder="Ej: Contenedor roto, acceso bloqueado..."></textarea>
+    
+    <button class="btn-primary" onclick="guardarRecogida()">✅ Guardar Recogida</button>
   </div>
 </div>
 
-<!-- DÍAS -->
-<div class="pantalla" id="p-dias">
-  <div class="header"><button class="btn-back" onclick="ir('p-inicio')">←</button><h1>Día de Ruta</h1></div>
-  <div class="scroll-body"><div class="lista-botones">
-    <button class="btn-grande" onclick="mostrarPueblosPorDia('Lunes')"><span class="icono">📅</span> Lunes</button>
-    <button class="btn-grande" onclick="mostrarPueblosPorDia('Martes')"><span class="icono">📅</span> Martes</button>
-    <button class="btn-grande" onclick="mostrarPueblosPorDia('Miercoles')"><span class="icono">📅</span> Miércoles</button>
-    <button class="btn-grande" onclick="mostrarPueblosPorDia('Jueves')"><span class="icono">📅</span> Jueves</button>
-    <button class="btn-grande" onclick="mostrarPueblosPorDia('Viernes')"><span class="icono">📅</span> Viernes</button>
-  </div></div>
-</div>
-
-<!-- SECTORES -->
-<div class="pantalla" id="p-sectores">
-  <div class="header"><button class="btn-back" onclick="ir('p-inicio')">←</button><h1>Sectores</h1></div>
-  <div class="scroll-body"><div class="lista-botones">
-    <button class="btn-grande" onclick="mostrarPueblosPorSector('Norte')"><span class="icono">⬆️</span> Sector Norte</button>
-    <button class="btn-grande" onclick="mostrarPueblosPorSector('Este1')"><span class="icono">➡️</span> Sector Este I</button>
-    <button class="btn-grande" onclick="mostrarPueblosPorSector('Este2')"><span class="icono">↗️</span> Sector Este II</button>
-    <button class="btn-grande" onclick="mostrarPueblosPorSector('Sur')"><span class="icono">⬇️</span> Sector Sur</button>
-    <button class="btn-grande" onclick="mostrarPueblosPorSector('Centro')"><span class="icono">🎯</span> Sector Centro</button>
-  </div></div>
-</div>
-
-<!-- PUEBLOS -->
-<div class="pantalla" id="p-pueblos">
-  <div class="header"><button class="btn-back" onclick="irAtras()">←</button><h1 id="pueblos-titulo">Pueblos</h1></div>
-  <div class="buscador-wrap">
-    <input class="buscador" type="text" placeholder="Buscar pueblo..." id="buscador-input" oninput="filtrarPueblos()" autocomplete="off">
+<div id="section-descarga" class="section">
+  <div class="card">
+    <div class="card-title">⚖️ Registro de Descarga</div>
+    <label>Kilos Totales</label>
+    <input type="number" id="des-kilos" placeholder="Ej: 1240">
+    <label>Notas de Descarga</label>
+    <textarea id="des-notas" placeholder="Ej: Planta de Huesca..."></textarea>
+    <button class="btn-primary" onclick="guardarDescarga()">🚛 Registrar Descarga</button>
   </div>
-  <div class="scroll-body" id="lista-pueblos"></div>
-</div>
-
-<!-- DETALLE -->
-<div class="pantalla" id="p-detalle">
-  <div class="header"><button class="btn-back" onclick="ir('p-pueblos')">←</button><h1 id="detalle-titulo-header">Detalle</h1></div>
-  <div class="scroll-body"><div class="detalle-pad">
-    <div class="detalle-header-info">
-      <div class="detalle-titulo" id="detalle-nombre"></div>
-      <div class="detalle-subtitulo" id="detalle-sector-dia"></div>
-      <div style="margin-top:12px">
-        <div class="detalle-fila"><span class="detalle-label">Contenedores</span><span class="detalle-valor" id="detalle-contenedores"></span></div>
-      </div>
-    </div>
-    <div class="seccion-titulo">Nivel de llenado</div>
-    <div class="niveles-grid">
-      <button class="btn-nivel" data-nivel="VACÍO" onclick="seleccionarNivel(this)"><span class="nivel-emoji">⬜</span>VACÍO</button>
-      <button class="btn-nivel" data-nivel="25%" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🟩</span>25%</button>
-      <button class="btn-nivel" data-nivel="50%" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🟨</span>50%</button>
-      <button class="btn-nivel" data-nivel="75%" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🟧</span>75%</button>
-      <button class="btn-nivel" data-nivel="100%" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🟥</span>100%</button>
-      <button class="btn-nivel" data-nivel="DESBORDADO" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🚨</span>DESB.</button>
-    </div>
-    <div class="seccion-titulo">Incidencias</div>
-    <textarea class="textarea-incidencias" id="incidencias-input" placeholder="Escribe una nota..."></textarea>
-    <button class="btn-recogido" id="btn-recogido" onclick="guardarRecogida()">⬇️ RECOGIDO</button>
-    <div class="historial-header"><div class="seccion-titulo" style="margin:0">Historial</div></div>
-    <div id="historial-pueblo"></div>
-  </div></div>
-</div>
-
-<!-- HISTORIAL GENERAL -->
-<div class="pantalla" id="p-historial">
-  <div class="header"><button class="btn-back" onclick="ir('p-inicio')">←</button><h1>Historial General</h1></div>
-  <div class="scroll-body" id="historial-general-lista"></div>
-  <button class="btn-exportar" onclick="exportarCSV()">📥 Exportar a CSV</button>
-</div>
-
-<!-- DESCARGAS -->
-<div class="pantalla" id="p-descargas">
-  <div class="header"><button class="btn-back" onclick="ir('p-inicio')">←</button><h1>Descargas</h1></div>
-  <div class="scroll-body"><div class="descarga-pad">
-    <div class="input-kilos-wrap">
-      <span class="input-kilos-label">Kilos descargados</span>
-      <input class="input-kilos" type="number" id="input-kilos" placeholder="0" inputmode="numeric">
-      <textarea class="input-notas-descarga" id="input-notas-descarga" placeholder="Notas (opcional)..."></textarea>
-    </div>
-    <button class="btn-descarga" id="btn-descarga" onclick="guardarDescarga()">🏭 DESCARGA</button>
-    <button class="btn-historial-descarga" onclick="ir('p-historial-descargas')">📊 Historial de Descargas</button>
-  </div></div>
-</div>
-
-<!-- HISTORIAL DESCARGAS -->
-<div class="pantalla" id="p-historial-descargas">
-  <div class="header"><button class="btn-back" onclick="ir('p-descargas')">←</button><h1>Historial Descargas</h1></div>
-  <div class="scroll-body" id="historial-descargas-body"></div>
-  <button class="btn-exportar naranja" onclick="exportarDescargasCSV()">📥 Exportar Descargas</button>
-</div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-borrar">
-  <div class="modal">
-    <h3>¿Borrar entrada?</h3>
-    <p>Esta acción no se puede deshacer.</p>
-    <div class="modal-botones">
-      <button class="modal-btn cancelar" onclick="cerrarModal()">Cancelar</button>
-      <button class="modal-btn confirmar" onclick="confirmarBorrado()">Borrar</button>
-    </div>
+  <div class="card">
+    <div class="card-title">📜 Últimas Descargas</div>
+    <div id="lista-descargas"></div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div id="section-datos" class="section">
+  <div class="card">
+    <div class="card-title">📊 Gestión de Datos</div>
+    <button class="btn-primary" onclick="exportarCSV()">📤 Compartir Reporte Recogidas (CSV)</button>
+    <button class="btn-outline" onclick="exportarDescargasCSV()">📤 Compartir Reporte Descargas (CSV)</button>
+    
+    <button class="btn-danger" onclick="borrarTodo()">⚠️ Borrar Todo el Historial</button>
+  </div>
+  
+  <div class="card">
+    <div class="card-title">🕒 Historial Reciente</div>
+    <div id="historial-recogidas"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div class="floating-total" id="float-kg">0 KG</div>
 
 <script>
-const PUEBLOS = [
-  { nombre: "Molino", sector: "Norte", dia: "Lunes, Viernes", contenedores: 4 },
-  { nombre: "Cuartel", sector: "Norte", dia: "Lunes, Viernes", contenedores: 2 },
-  { nombre: "Ampriu", sector: "Norte", dia: "Lunes, Viernes", contenedores: 2 },
-  { nombre: "LLanos Hospital", sector: "Norte", dia: "Lunes, Viernes", contenedores: 2 },
-  { nombre: "Hotel Turpi", sector: "Norte", dia: "Lunes, Viernes", contenedores: 1 },
-  { nombre: "Poligono", sector: "Norte", dia: "Viernes", contenedores: 1 },
-  { nombre: "Gasolinera", sector: "Norte", dia: "Viernes", contenedores: 1 },
-  { nombre: "Camping Aneto", sector: "Norte", dia: "Viernes", contenedores: 2 },
-  { nombre: "Cruce Estos", sector: "Norte", dia: "Viernes", contenedores: 1 },
-  { nombre: "Bisaurri", sector: "Este1", dia: "Martes", contenedores: 3 },
-  { nombre: "Piedrafita", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Renanue", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Hotel Fonchispa", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "San Feliu", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Abella", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Espes", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Villarrue", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Suils", sector: "Este1", dia: "Martes", contenedores: 2 },
-  { nombre: "Neril", sector: "Este1", dia: "Martes", contenedores: 2 },
-  { nombre: "Señiu", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Noales", sector: "Este1", dia: "Martes", contenedores: 2 },
-  { nombre: "LLagunas", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Ribera", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Fonchanina", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Castanesa Pueblo", sector: "Este1", dia: "Martes", contenedores: 2 },
-  { nombre: "Castanesa Bar", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Ardanuy", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Benifons", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Erbera", sector: "Este1", dia: "Martes", contenedores: 1 },
-  { nombre: "Moralets", sector: "Este2", dia: "Martes", contenedores: 1 },
-  { nombre: "Aneto", sector: "Este2", dia: "Martes", contenedores: 2 },
-  { nombre: "Bono", sector: "Este2", dia: "Martes", contenedores: 1 },
-  { nombre: "Estet", sector: "Este2", dia: "Martes", contenedores: 1 },
-  { nombre: "Forcat", sector: "Este2", dia: "Martes", contenedores: 1 },
-  { nombre: "Viñal", sector: "Este2", dia: "Martes", contenedores: 1 },
-  { nombre: "Ginast", sector: "Este2", dia: "Martes", contenedores: 1 },
-  { nombre: "Montanuy", sector: "Este2", dia: "Martes", contenedores: 2 },
-  { nombre: "Escané", sector: "Este2", dia: "Martes", contenedores: 1 },
-  { nombre: "Foradada Pueblo", sector: "Sur", dia: "Miercoles", contenedores: 1 },
-  { nombre: "Foradada Abajo", sector: "Sur", dia: "Miercoles", contenedores: 3 },
-  { nombre: "Las Colladas", sector: "Sur", dia: "Miercoles", contenedores: 1 },
-  { nombre: "Navarri", sector: "Sur", dia: "Miercoles", contenedores: 1 },
-  { nombre: "Morillo de Liena", sector: "Sur", dia: "Miercoles", contenedores: 2 },
-  { nombre: "Egea", sector: "Sur", dia: "Miercoles", contenedores: 3 },
-  { nombre: "Espluga", sector: "Sur", dia: "Miercoles", contenedores: 1 },
-  { nombre: "Padarnue", sector: "Sur", dia: "Miercoles", contenedores: 1 },
-  { nombre: "Serrate", sector: "Sur", dia: "Miercoles", contenedores: 2 },
-  { nombre: "Pueyo", sector: "Sur", dia: "Miercoles", contenedores: 1 },
-  { nombre: "Vilas Turbon", sector: "Sur", dia: "Miercoles", contenedores: 6 },
-  { nombre: "Reperos", sector: "Sur", dia: "Miercoles", contenedores: 1 },
-  { nombre: "Torre Ribera", sector: "Sur", dia: "Miercoles", contenedores: 1 },
-  { nombre: "Villacarli", sector: "Sur", dia: "Miercoles", contenedores: 3 },
-  { nombre: "Senz", sector: "Sur", dia: "Miercoles", contenedores: 1 },
-  { nombre: "Viu", sector: "Sur", dia: "Miercoles", contenedores: 2 },
-  { nombre: "Guayente", sector: "Centro", dia: "Jueves", contenedores: 1 },
-  { nombre: "Camping Borda", sector: "Centro", dia: "Jueves", contenedores: 2 },
-  { nombre: "Sos", sector: "Centro", dia: "Jueves", contenedores: 2 },
-  { nombre: "Bomberos", sector: "Centro", dia: "Jueves", contenedores: 1 },
-  { nombre: "Eresue", sector: "Centro", dia: "Jueves", contenedores: 1 },
-  { nombre: "Ramastue", sector: "Centro", dia: "Jueves", contenedores: 1 },
-  { nombre: "Liri", sector: "Centro", dia: "Jueves", contenedores: 1 },
-  { nombre: "Arasan", sector: "Centro", dia: "Jueves", contenedores: 1 },
-  { nombre: "Urmella", sector: "Centro", dia: "Jueves", contenedores: 1 },
-  { nombre: "Chia", sector: "Centro", dia: "Jueves", contenedores: 3 },
-  { nombre: "Taller Castel", sector: "Centro", dia: "Jueves", contenedores: 1 },
-  { nombre: "Casa Rio", sector: "Centro", dia: "Jueves", contenedores: 1 },
-  { nombre: "Villanova Ayuntamiento", sector: "Centro", dia: "Viernes", contenedores: 1 },
-  { nombre: "Villanova Carpintero", sector: "Centro", dia: "Viernes", contenedores: 1 },
-];
+const CONFIG_RUTA = {
+  "Lunes": [
+    {p:"Bisaurri", s:"Núcleo"}, {p:"Arasán", s:"Núcleo"}, {p:"Urmella", s:"Núcleo"},
+    {p:"Castejón de Sos", s:"Núcleo"}, {p:"Castejón de Sos", s:"Extrarradio"},
+    {p:"Ramastué", s:"Núcleo"}, {p:"Eriste", s:"Núcleo"}, {p:"Eriste", s:"Camping"}
+  ],
+  "Martes": [
+    {p:"Benasque", s:"Núcleo"}, {p:"Benasque", s:"Aparcamientos"}, {p:"Anciles", s:"Núcleo"},
+    {p:"Cerler", s:"Núcleo"}, {p:"Cerler", s:"Urbanizaciones"}, {p:"Pla de Estany", s:"Núcleo"}
+  ],
+  "Miércoles": [
+    {p:"Sahún", s:"Núcleo"}, {p:"Eriste", s:"Núcleo"}, {p:"Chia", s:"Núcleo"},
+    {p:"Castejón de Sos", s:"Núcleo"}, {p:"Sesué", s:"Núcleo"}, {p:"Villanova", s:"Núcleo"}
+  ],
+  "Jueves": [
+    {p:"Seira", s:"Núcleo"}, {p:"Chía", s:"Núcleo"}, {p:"Villanova", s:"Núcleo"},
+    {p:"Sesué", s:"Núcleo"}, {p:"Eriste", s:"Núcleo"}, {p:"Sahún", s:"Núcleo"}
+  ],
+  "Viernes": [
+    {p:"Benasque", s:"Núcleo"}, {p:"Benasque", s:"Polígono"}, {p:"Anciles", s:"Núcleo"},
+    {p:"Cerler", s:"Núcleo"}, {p:"Castejón de Sos", s:"Núcleo"}, {p:"Sesué", s:"Camping"}
+  ],
+  "Sábado": [
+    {p:"Benasque", s:"Núcleo"}, {p:"Eriste", s:"Núcleo"}, {p:"Castejón de Sos", s:"Núcleo"}
+  ],
+  "Domingo": []
+};
 
-let pueblosFiltrados = [], puebloActual = null, nivelSeleccionado = null;
-let filtroPorSector = false, fechaPendienteBorrar = null, origenHistorial = null;
+let diaActual = "";
 
-// NAVEGACIÓN
-function ir(id) {
-  document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
-  document.getElementById(id).classList.add('activa');
-  if (id === 'p-historial') renderizarHistorialGeneral();
-  if (id === 'p-historial-descargas') renderizarHistorialDescargas();
-  if (id === 'p-descargas') {
-    document.getElementById('input-kilos').value = '';
-    document.getElementById('input-notas-descarga').value = '';
-    const btn = document.getElementById('btn-descarga');
-    btn.classList.remove('guardado');
-    btn.textContent = '🏭 DESCARGA';
-  }
+function init() {
+  const fecha = new Date();
+  const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  diaActual = dias[fecha.getDay()];
+  document.getElementById('nombre-dia').textContent = diaActual;
+  
+  cargarPueblosHoy();
+  cargarSelectPueblos();
+  actualizarStats();
+  renderHistorial();
+  renderDescargas();
 }
 
-function irAtras() { ir(filtroPorSector ? 'p-sectores' : 'p-dias'); }
-
-// PUEBLOS
-function mostrarPueblosPorDia(dia) {
-  filtroPorSector = false;
-  let lista;
-  if (dia === 'Lunes') lista = PUEBLOS.filter(p => p.dia === 'Lunes, Viernes');
-  else if (dia === 'Viernes') lista = PUEBLOS.filter(p => p.dia === 'Lunes, Viernes' || p.dia === 'Viernes');
-  else lista = PUEBLOS.filter(p => p.dia === dia);
-  pueblosFiltrados = lista;
-  document.getElementById('pueblos-titulo').textContent = dia;
-  renderizarPueblos(lista);
-  document.getElementById('buscador-input').value = '';
-  ir('p-pueblos');
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('section-' + tab).classList.add('active');
 }
 
-function mostrarPueblosPorSector(sector) {
-  filtroPorSector = true;
-  const lista = PUEBLOS.filter(p => p.sector === sector);
-  pueblosFiltrados = lista;
-  const nombres = { Norte:'Sector Norte', Este1:'Sector Este I', Este2:'Sector Este II', Sur:'Sector Sur', Centro:'Sector Centro' };
-  document.getElementById('pueblos-titulo').textContent = nombres[sector] || sector;
-  renderizarPueblos(lista);
-  document.getElementById('buscador-input').value = '';
-  ir('p-pueblos');
-}
-
-function filtrarPueblos() {
-  const q = document.getElementById('buscador-input').value.toLowerCase();
-  renderizarPueblos(pueblosFiltrados.filter(p => p.nombre.toLowerCase().includes(q)));
-}
-
-function renderizarPueblos(lista) {
-  const cont = document.getElementById('lista-pueblos');
-  if (!lista.length) { cont.innerHTML = '<div class="empty-state"><div class="emoji">🔍</div><p>No se encontró ningún pueblo</p></div>'; return; }
-  cont.innerHTML = lista.map(p => `
-    <div class="pueblo-item" onclick="abrirPueblo('${p.nombre}')">
-      <span class="pueblo-icono">📍</span>
-      <div class="pueblo-info">
-        <div class="pueblo-nombre">${p.nombre}</div>
-        <div class="pueblo-meta">${p.sector} · ${p.contenedores} contenedor${p.contenedores > 1 ? 'es' : ''}</div>
-      </div>
-      <span class="pueblo-chevron">›</span>
-    </div>`).join('');
-}
-
-function abrirPueblo(nombre) {
-  puebloActual = PUEBLOS.find(p => p.nombre === nombre);
-  nivelSeleccionado = null;
-  document.getElementById('detalle-titulo-header').textContent = nombre;
-  document.getElementById('detalle-nombre').textContent = nombre;
-  document.getElementById('detalle-sector-dia').textContent = `${puebloActual.sector} · ${puebloActual.dia}`;
-  document.getElementById('detalle-contenedores').textContent = puebloActual.contenedores;
-  document.getElementById('incidencias-input').value = '';
-  const btn = document.getElementById('btn-recogido');
-  btn.classList.remove('guardado'); btn.textContent = '⬇️ RECOGIDO';
-  document.querySelectorAll('.btn-nivel').forEach(b => b.classList.remove('seleccionado'));
-  renderizarHistorialPueblo(nombre);
-  ir('p-detalle');
-}
-
-function seleccionarNivel(btn) {
-  document.querySelectorAll('.btn-nivel').forEach(b => b.classList.remove('seleccionado'));
-  btn.classList.add('seleccionado');
-  nivelSeleccionado = btn.dataset.nivel;
-}
-
-function guardarRecogida() {
-  if (!nivelSeleccionado) { mostrarToast('⚠️ Selecciona el nivel de llenado'); return; }
-  const registro = {
-    fecha: new Date().toISOString(), pueblo: puebloActual.nombre, sector: puebloActual.sector,
-    dia: puebloActual.dia, contenedores: puebloActual.contenedores,
-    nivel: nivelSeleccionado, incidencias: document.getElementById('incidencias-input').value.trim()
-  };
-  const registros = obtenerRegistros();
-  registros.unshift(registro);
-  localStorage.setItem('registros_ruta', JSON.stringify(registros));
-  const btn = document.getElementById('btn-recogido');
-  btn.classList.add('guardado'); btn.textContent = '✅ GUARDADO';
-  mostrarToast('✅ Recogida registrada');
-  renderizarHistorialPueblo(puebloActual.nombre);
-}
-
-function obtenerRegistros() {
-  try { return JSON.parse(localStorage.getItem('registros_ruta') || '[]'); } catch { return []; }
-}
-
-function claseNivel(n) { return n === 'DESBORDADO' ? 'desbordado' : n === 'VACÍO' ? 'vacio' : ''; }
-
-function renderizarHistorialPueblo(nombre) {
-  const registros = obtenerRegistros().filter(r => r.pueblo === nombre);
-  const cont = document.getElementById('historial-pueblo');
-  if (!registros.length) { cont.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>Sin registros anteriores</p></div>'; return; }
-  cont.innerHTML = registros.slice(0,15).map(r => {
-    const f = new Date(r.fecha);
-    const fs = f.toLocaleDateString('es-ES') + ' ' + f.toLocaleTimeString('es-ES', {hour:'2-digit',minute:'2-digit'});
-    return `<div class="historial-item">
-      <div class="historial-item-fila">
-        <div class="historial-fecha">${fs}</div>
-        <div style="display:flex;align-items:center">
-          <span class="historial-nivel ${claseNivel(r.nivel)}">${r.nivel}</span>
-          <button class="btn-borrar-entrada" onclick="pedirBorrado('${r.fecha}','pueblo')">🗑️</button>
-        </div>
-      </div>
-      ${r.incidencias ? `<div class="historial-incidencia">⚠️ ${r.incidencias}</div>` : ''}
-    </div>`;
-  }).join('');
-}
-
-function renderizarHistorialGeneral() {
-  const registros = obtenerRegistros();
-  const cont = document.getElementById('historial-general-lista');
-  if (!registros.length) { cont.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>No hay registros todavía</p></div>'; return; }
-  const grupos = {};
-  registros.forEach(r => { const f = new Date(r.fecha).toLocaleDateString('es-ES'); if (!grupos[f]) grupos[f]=[]; grupos[f].push(r); });
-  cont.innerHTML = Object.entries(grupos).map(([fecha, items]) => `
-    <div style="padding:0 16px">
-      <div class="historial-grupo-titulo">${fecha}</div>
-      ${items.map(r => `
-        <div class="historial-general-item">
-          <div class="hgi-fila">
-            <div class="hgi-pueblo">${r.pueblo}</div>
-            <div class="hgi-acciones">
-              <span class="hgi-nivel ${claseNivel(r.nivel)}">${r.nivel}</span>
-              <button class="btn-borrar-entrada" onclick="pedirBorrado('${r.fecha}','general')">🗑️</button>
-            </div>
-          </div>
-          <div class="hgi-meta">${r.sector} · ${new Date(r.fecha).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}</div>
-          ${r.incidencias ? `<div class="historial-incidencia">⚠️ ${r.incidencias}</div>` : ''}
-        </div>`).join('')}
-    </div>`).join('');
-}
-
-// ══════════════════════════════════════════
-// DESCARGAS
-// ══════════════════════════════════════════
-function obtenerDescargas() {
-  try { return JSON.parse(localStorage.getItem('descargas_ruta') || '[]'); } catch { return []; }
-}
-
-function guardarDescarga() {
-  const kilos = parseFloat(document.getElementById('input-kilos').value);
-  if (!kilos || kilos <= 0) { mostrarToast('⚠️ Introduce los kilos descargados'); return; }
-  const descarga = {
-    fecha: new Date().toISOString(),
-    kilos: kilos,
-    notas: document.getElementById('input-notas-descarga').value.trim()
-  };
-  const descargas = obtenerDescargas();
-  descargas.unshift(descarga);
-  localStorage.setItem('descargas_ruta', JSON.stringify(descargas));
-  const btn = document.getElementById('btn-descarga');
-  btn.classList.add('guardado'); btn.textContent = '✅ GUARDADO';
-  mostrarToast('✅ Descarga registrada');
-}
-
-function renderizarHistorialDescargas() {
-  const descargas = obtenerDescargas();
-  const cont = document.getElementById('historial-descargas-body');
-
-  if (!descargas.length) {
-    cont.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>No hay descargas registradas</p></div>';
+function cargarPueblosHoy() {
+  const lista = document.getElementById('lista-pueblos-hoy');
+  const pueblos = CONFIG_RUTA[diaActual] || [];
+  const recogidas = obtenerRecogidas().filter(r => isHoy(r.fecha));
+  
+  if(pueblos.length === 0) {
+    lista.innerHTML = '<p style="text-align:center; padding:20px; color:var(--texto-secundario);">No hay ruta programada para hoy.</p>';
     return;
   }
 
-  const total = descargas.reduce((s, d) => s + d.kilos, 0);
-  const esteMes = descargas.filter(d => {
-    const f = new Date(d.fecha); const hoy = new Date();
-    return f.getMonth() === hoy.getMonth() && f.getFullYear() === hoy.getFullYear();
-  }).reduce((s, d) => s + d.kilos, 0);
-  const estaSemana = descargas.filter(d => {
-    const f = new Date(d.fecha); const hoy = new Date();
-    const lunes = new Date(hoy); lunes.setDate(hoy.getDate() - hoy.getDay() + 1); lunes.setHours(0,0,0,0);
-    return f >= lunes;
-  }).reduce((s, d) => s + d.kilos, 0);
-
-  const formatKg = n => n >= 1000 ? (n/1000).toFixed(1) + ' t' : n.toLocaleString('es-ES') + ' kg';
-
-  cont.innerHTML = `
-    <div class="totales-card">
-      <div class="totales-card-titulo">Total acumulado</div>
-      <div class="totales-card-numero">${formatKg(total)}</div>
-    </div>
-    <div class="totales-parciales">
-      <div class="totales-parcial">
-        <div class="totales-parcial-label">Esta semana</div>
-        <div class="totales-parcial-valor">${formatKg(estaSemana)}</div>
+  lista.innerHTML = pueblos.map(item => {
+    const hecho = recogidas.some(r => r.pueblo === item.p);
+    return `
+      <div class="pueblo-item">
+        <div class="pueblo-info">
+          <h4>${item.p}</h4>
+          <p>${item.s}</p>
+        </div>
+        <div class="status-dot ${hecho ? 'status-done' : ''}"></div>
       </div>
-      <div class="totales-parcial">
-        <div class="totales-parcial-label">Este mes</div>
-        <div class="totales-parcial-valor">${formatKg(esteMes)}</div>
+    `;
+  }).join('');
+}
+
+function cargarSelectPueblos() {
+  const select = document.getElementById('reg-pueblo');
+  const todosLosPueblos = [...new Set(Object.values(CONFIG_RUTA).flat().map(i => i.p))].sort();
+  select.innerHTML = todosLosPueblos.map(p => `<option value="${p}">${p}</option>`).join('');
+}
+
+function guardarRecogida() {
+  const r = {
+    fecha: new Date().toISOString(),
+    dia: diaActual,
+    pueblo: document.getElementById('reg-pueblo').value,
+    sector: document.getElementById('reg-sector').value,
+    contenedores: parseInt(document.getElementById('reg-cantidad').value),
+    nivel: document.getElementById('reg-nivel').value,
+    incidencia: document.getElementById('reg-incidencia').value
+  };
+
+  const historial = obtenerRecogidas();
+  historial.unshift(r);
+  localStorage.setItem('historial_recogidas', JSON.stringify(historial));
+  
+  mostrarToast("✅ Recogida guardada");
+  document.getElementById('reg-incidencia').value = "";
+  
+  actualizarStats();
+  cargarPueblosHoy();
+  renderHistorial();
+  switchTab('hoy');
+}
+
+function guardarDescarga() {
+  const kilos = parseInt(document.getElementById('des-kilos').value);
+  if(!kilos) { mostrarToast("❌ Introduce los kilos"); return; }
+  
+  const d = {
+    fecha: new Date().toISOString(),
+    kilos: kilos,
+    notas: document.getElementById('des-notas').value
+  };
+
+  const descargas = obtenerDescargas();
+  descargas.unshift(d);
+  localStorage.setItem('historial_descargas', JSON.stringify(descargas));
+  
+  document.getElementById('des-kilos').value = "";
+  document.getElementById('des-notas').value = "";
+  mostrarToast("🚛 Descarga registrada");
+  
+  actualizarStats();
+  renderDescargas();
+}
+
+function obtenerRecogidas() { return JSON.parse(localStorage.getItem('historial_recogidas') || '[]'); }
+function obtenerDescargas() { return JSON.parse(localStorage.getItem('historial_descargas') || '[]'); }
+
+function isHoy(fechaIso) {
+  const hoy = new Date().toDateString();
+  return new Date(fechaIso).toDateString() === hoy;
+}
+
+function actualizarStats() {
+  const recogidasHoy = obtenerRecogidas().filter(r => isHoy(r.fecha));
+  const totalContHoy = recogidasHoy.reduce((acc, r) => acc + r.contenedores, 0);
+  const totalKgHoy = obtenerDescargas().filter(d => isHoy(d.fecha)).reduce((acc, d) => acc + d.kilos, 0);
+  
+  document.getElementById('header-stats').textContent = `${recogidasHoy.length} PARADAS | ${totalContHoy} CONT.`;
+  document.getElementById('float-kg').textContent = `${totalKgHoy} KG`;
+}
+
+function renderHistorial() {
+  const h = obtenerRecogidas().slice(0,10);
+  const lista = document.getElementById('historial-recogidas');
+  lista.innerHTML = h.map(r => `
+    <div class="historial-item">
+      <div class="historial-header">
+        <span>${r.pueblo} (${r.sector})</span>
+        <span style="color:var(--verde)">${r.contenedores} und.</span>
       </div>
+      <div class="historial-meta">${new Date(r.fecha).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - Llenado: ${r.nivel}</div>
     </div>
-    <div style="padding: 0 16px">
-      <div class="historial-grupo-titulo">Todas las descargas</div>
-      ${descargas.map(d => {
-        const f = new Date(d.fecha);
-        const fs = f.toLocaleDateString('es-ES') + ' ' + f.toLocaleTimeString('es-ES', {hour:'2-digit',minute:'2-digit'});
-        return `<div class="descarga-hist-item">
-          <div class="descarga-hist-fila">
-            <div class="descarga-hist-fecha">${fs}</div>
-            <div style="display:flex;align-items:center;gap:6px">
-              <span class="descarga-hist-kilos">${d.kilos.toLocaleString('es-ES')} kg</span>
-              <button class="btn-borrar-entrada" onclick="pedirBorrado('${d.fecha}','descarga')">🗑️</button>
-            </div>
-          </div>
-          ${d.notas ? `<div class="descarga-hist-nota">📝 ${d.notas}</div>` : ''}
-        </div>`;
-      }).join('')}
-    </div>`;
+  `).join('');
 }
 
-// BORRADO
-function pedirBorrado(fecha, origen) {
-  fechaPendienteBorrar = fecha; origenHistorial = origen;
-  document.getElementById('modal-borrar').classList.add('visible');
+function renderDescargas() {
+  const d = obtenerDescargas().slice(0,5);
+  const lista = document.getElementById('lista-descargas');
+  lista.innerHTML = d.map(item => `
+    <div class="historial-item">
+      <div class="historial-header">
+        <span>${new Date(item.fecha).toLocaleDateString()}</span>
+        <span style="color:var(--azul)">${item.kilos} KG</span>
+      </div>
+      <div class="historial-meta">${item.notas || 'Sin notas'}</div>
+    </div>
+  `).join('');
 }
 
-function cerrarModal() {
-  fechaPendienteBorrar = null; origenHistorial = null;
-  document.getElementById('modal-borrar').classList.remove('visible');
+function mostrarToast(txt) {
+  const t = document.getElementById('toast');
+  t.textContent = txt;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 2500);
 }
 
-function confirmarBorrado() {
-  if (!fechaPendienteBorrar) return;
-  if (origenHistorial === 'descarga') {
-    const descargas = obtenerDescargas().filter(d => d.fecha !== fechaPendienteBorrar);
-    localStorage.setItem('descargas_ruta', JSON.stringify(descargas));
-    cerrarModal(); mostrarToast('🗑️ Descarga borrada');
-    renderizarHistorialDescargas();
-  } else {
-    const registros = obtenerRegistros().filter(r => r.fecha !== fechaPendienteBorrar);
-    localStorage.setItem('registros_ruta', JSON.stringify(registros));
-    cerrarModal(); mostrarToast('🗑️ Entrada borrada');
-    if (origenHistorial === 'pueblo' && puebloActual) renderizarHistorialPueblo(puebloActual.nombre);
-    if (origenHistorial === 'general') renderizarHistorialGeneral();
+function borrarTodo() {
+  if(confirm("¿Estás seguro de borrar todo el historial? Esto no se puede deshacer.")) {
+    localStorage.clear();
+    location.reload();
   }
 }
 
-// EXPORTAR
+// --- FUNCIONES DE EXPORTACIÓN MEJORADAS (WEB SHARE API) ---
+
+async function descargarArchivo(contenido, nombre) {
+  const blob = new Blob([contenido], {type:'text/csv;charset=utf-8;'});
+  const archivo = new File([blob], nombre, { type: 'text/csv' });
+
+  // Si el móvil permite compartir archivos (Android/iOS modernos)
+  if (navigator.share && navigator.canShare && navigator.canShare({ files: [archivo] })) {
+    try {
+      await navigator.share({
+        files: [archivo],
+        title: 'Reporte de Ruta',
+        text: 'Envío el archivo CSV con los datos.'
+      });
+      mostrarToast('✅ Compartido correctamente');
+    } catch (err) {
+      // Si el usuario cancela o hay error, intentamos descarga normal
+      ejecutarDescargaTradicional(blob, nombre);
+    }
+  } else {
+    // Si el navegador no soporta compartir (PC o navegadores antiguos)
+    ejecutarDescargaTradicional(blob, nombre);
+  }
+}
+
+function ejecutarDescargaTradicional(blob, nombre) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = nombre;
+  a.click();
+  URL.revokeObjectURL(url);
+  mostrarToast('📥 Archivo descargado');
+}
+
 function exportarCSV() {
-  const registros = obtenerRegistros();
+  const registros = obtenerRecogidas();
   if (!registros.length) { mostrarToast('No hay datos para exportar'); return; }
   const cab = 'Fecha,Pueblo,Sector,Dia,Contenedores,Nivel,Incidencias\n';
   const filas = registros.map(r => {
@@ -669,7 +439,6 @@ function exportarCSV() {
     return `"${f}","${r.pueblo}","${r.sector}","${r.dia}",${r.contenedores},"${r.nivel}","${(r.incidencias||'').replace(/,/g,';')}"`;
   }).join('\n');
   descargarArchivo(cab+filas, `recogidas-${new Date().toISOString().slice(0,10)}.csv`);
-  mostrarToast('📥 CSV descargado');
 }
 
 function exportarDescargasCSV() {
@@ -681,22 +450,9 @@ function exportarDescargasCSV() {
     return `"${f}",${d.kilos},"${(d.notas||'').replace(/,/g,';')}"`;
   }).join('\n');
   descargarArchivo(cab+filas, `descargas-${new Date().toISOString().slice(0,10)}.csv`);
-  mostrarToast('📥 CSV descargado');
 }
 
-function descargarArchivo(contenido, nombre) {
-  const blob = new Blob([contenido], {type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = nombre; a.click();
-  URL.revokeObjectURL(url);
-}
-
-function mostrarToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('visible');
-  setTimeout(() => t.classList.remove('visible'), 2500);
-}
+window.onload = init;
 </script>
 </body>
 </html>
