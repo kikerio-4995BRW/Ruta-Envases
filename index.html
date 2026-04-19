@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#3730d4">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ruta Envases">
+<meta name="theme-color" content="#3730d4">
 <link rel="manifest" href="manifest.json">
 <title>Ruta Envases</title>
 <style>
@@ -16,8 +16,6 @@
   :root {
     --azul: #3730d4;
     --azul-oscuro: #2820b8;
-    --azul-claro: #4a44e8;
-    --blanco: #ffffff;
     --gris-fondo: #f4f4f8;
     --gris-borde: #e0e0ea;
     --texto: #1a1a2e;
@@ -29,19 +27,34 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
+  html { height: 100%; }
+
   body {
     font-family: 'Barlow', sans-serif;
     background: var(--gris-fondo);
     color: var(--texto);
-    min-height: 100vh;
-    overflow-x: hidden;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
   }
 
-  /* ── PANTALLAS ── */
-  .pantalla { display: none; min-height: 100vh; flex-direction: column; }
+  .pantalla {
+    display: none;
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+    background: var(--gris-fondo);
+  }
   .pantalla.activa { display: flex; }
 
-  /* ── HEADER ── */
+  .scroll-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* HEADER */
   .header {
     background: var(--azul);
     color: white;
@@ -49,145 +62,83 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    flex-shrink: 0;
     box-shadow: 0 2px 12px rgba(55,48,212,0.3);
   }
-  .header h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+  .header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px; font-weight: 800;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
   .btn-back {
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: white;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
+    background: rgba(255,255,255,0.2); border: none; color: white;
+    width: 36px; height: 36px; border-radius: 50%; font-size: 18px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
   .btn-back:active { background: rgba(255,255,255,0.35); }
 
-  /* ── PANTALLA INICIO ── */
-  #p-inicio {
-    background: var(--azul);
-  }
-  .inicio-hero {
-    background: var(--azul);
-    padding: 32px 24px 24px;
-    color: white;
-    text-align: left;
-  }
-  .inicio-hero .emoji-row {
-    font-size: 48px;
-    margin-bottom: 20px;
-    display: flex;
-    gap: 8px;
-  }
+  /* INICIO */
+  #p-inicio { background: var(--azul); }
+  .inicio-hero { padding: 32px 24px 24px; color: white; }
+  .inicio-hero .emoji-row { font-size: 48px; margin-bottom: 20px; display: flex; gap: 8px; }
   .inicio-hero h1 {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 36px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    line-height: 1;
-    margin-bottom: 6px;
+    font-size: 36px; font-weight: 800; letter-spacing: 2px;
+    text-transform: uppercase; line-height: 1; margin-bottom: 6px;
   }
   .inicio-hero p {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 28px;
+    font-size: 13px; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; opacity: 0.7; margin-bottom: 28px;
   }
   .inicio-body {
     background: var(--gris-fondo);
     border-radius: 28px 28px 0 0;
-    padding: 28px 20px;
-    flex: 1;
+    padding: 28px 20px 40px;
   }
   .inicio-body h2 {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--texto-suave);
-    margin-bottom: 14px;
+    font-size: 13px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--texto-suave); margin-bottom: 14px;
   }
 
-  /* ── BOTONES GRANDES ── */
+  /* BOTONES GRANDES */
   .btn-grande {
-    width: 100%;
-    background: var(--azul);
-    color: white;
-    border: none;
-    border-radius: 16px;
-    padding: 20px 24px;
+    width: 100%; background: var(--azul); color: white; border: none;
+    border-radius: 16px; padding: 20px 24px;
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 12px;
-    transition: all 0.15s;
+    font-size: 20px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; display: flex; align-items: center; gap: 14px;
+    margin-bottom: 12px; transition: all 0.15s;
     box-shadow: 0 4px 16px rgba(55,48,212,0.25);
   }
   .btn-grande:active { transform: scale(0.98); background: var(--azul-oscuro); }
   .btn-grande .icono { font-size: 24px; }
-
   .btn-grande.secundario {
-    background: white;
-    color: var(--azul);
+    background: white; color: var(--azul);
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     border: 2px solid var(--gris-borde);
   }
   .btn-grande.secundario:active { background: var(--gris-fondo); }
 
-  /* ── PANTALLA FILTRO (Días / Sectores) ── */
-  .lista-botones {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex: 1;
-  }
+  .lista-botones { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
 
-  /* ── PANTALLA PUEBLOS ── */
+  /* BUSCADOR */
   .buscador-wrap {
-    padding: 14px 16px;
-    background: white;
-    border-bottom: 1px solid var(--gris-borde);
+    padding: 14px 16px; background: white;
+    border-bottom: 1px solid var(--gris-borde); flex-shrink: 0;
   }
   .buscador {
-    width: 100%;
-    background: var(--gris-fondo);
-    border: none;
-    border-radius: 12px;
-    padding: 12px 16px 12px 40px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 16px;
-    color: var(--texto);
-    outline: none;
+    width: 100%; background: var(--gris-fondo); border: none;
+    border-radius: 12px; padding: 12px 16px 12px 40px;
+    font-family: 'Barlow', sans-serif; font-size: 16px; color: var(--texto); outline: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237070a0' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: 12px center;
+    background-repeat: no-repeat; background-position: 12px center;
   }
 
-  .lista-pueblos { flex: 1; overflow-y: auto; }
+  /* PUEBLOS */
   .pueblo-item {
-    display: flex;
-    align-items: center;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--gris-borde);
-    background: white;
-    cursor: pointer;
-    gap: 14px;
-    transition: background 0.15s;
+    display: flex; align-items: center; padding: 16px 20px;
+    border-bottom: 1px solid var(--gris-borde); background: white; cursor: pointer; gap: 14px;
   }
   .pueblo-item:active { background: #f0f0ff; }
   .pueblo-icono { font-size: 22px; }
@@ -196,412 +147,303 @@
   .pueblo-meta { font-size: 12px; color: var(--texto-suave); margin-top: 2px; }
   .pueblo-chevron { color: var(--texto-suave); font-size: 18px; }
 
-  /* ── PANTALLA DETALLE ── */
-  #p-detalle .contenido { padding: 20px; flex: 1; overflow-y: auto; }
-
+  /* DETALLE */
+  .detalle-pad { padding: 20px; }
   .detalle-header-info {
-    background: white;
-    border-radius: 16px;
-    padding: 18px;
-    margin-bottom: 16px;
+    background: white; border-radius: 16px; padding: 18px; margin-bottom: 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   }
   .detalle-titulo {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--texto);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 28px; font-weight: 800; color: var(--texto);
+    text-transform: uppercase; letter-spacing: 1px;
   }
   .detalle-subtitulo { font-size: 14px; color: var(--texto-suave); margin-top: 2px; font-weight: 600; }
   .detalle-fila {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--gris-borde);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--gris-borde);
   }
   .detalle-fila:last-child { border-bottom: none; }
   .detalle-label { font-size: 14px; color: var(--texto-suave); font-weight: 600; }
   .detalle-valor { font-size: 16px; font-weight: 700; color: var(--texto); }
 
-  /* ── NIVEL DE LLENADO ── */
+  /* NIVELES */
   .seccion-titulo {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--texto-suave);
-    margin-bottom: 12px;
-    margin-top: 20px;
+    font-size: 13px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--texto-suave);
+    margin-bottom: 12px; margin-top: 20px;
   }
-  .niveles-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 8px;
-  }
+  .niveles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 8px; }
   .btn-nivel {
-    border: 2px solid var(--gris-borde);
-    background: white;
-    border-radius: 12px;
+    border: 2px solid var(--gris-borde); background: white; border-radius: 12px;
     padding: 14px 8px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--texto);
-    cursor: pointer;
-    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 800;
+    color: var(--texto); cursor: pointer; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
     transition: all 0.15s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
   }
   .btn-nivel .nivel-emoji { font-size: 20px; }
   .btn-nivel:active { transform: scale(0.96); }
   .btn-nivel.seleccionado {
-    background: var(--azul);
-    border-color: var(--azul);
-    color: white;
+    background: var(--azul); border-color: var(--azul); color: white;
     box-shadow: 0 4px 12px rgba(55,48,212,0.3);
   }
-  .btn-nivel.seleccionado .nivel-emoji { filter: none; }
 
-  /* ── INCIDENCIAS ── */
+  /* INCIDENCIAS */
   .textarea-incidencias {
-    width: 100%;
-    background: white;
-    border: 2px solid var(--gris-borde);
-    border-radius: 12px;
-    padding: 14px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 15px;
-    color: var(--texto);
-    resize: none;
-    height: 90px;
-    outline: none;
-    transition: border-color 0.2s;
+    width: 100%; background: white; border: 2px solid var(--gris-borde);
+    border-radius: 12px; padding: 14px;
+    font-family: 'Barlow', sans-serif; font-size: 15px; color: var(--texto);
+    resize: none; height: 90px; outline: none; transition: border-color 0.2s;
   }
   .textarea-incidencias:focus { border-color: var(--azul); }
   .textarea-incidencias::placeholder { color: var(--texto-suave); }
 
-  /* ── BOTÓN RECOGIDO ── */
+  /* BOTÓN RECOGIDO */
   .btn-recogido {
-    width: 100%;
-    background: var(--azul);
-    color: white;
-    border: none;
-    border-radius: 16px;
-    padding: 22px;
+    width: 100%; background: var(--azul); color: white; border: none;
+    border-radius: 16px; padding: 22px;
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    margin-top: 20px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.15s;
-    box-shadow: 0 6px 20px rgba(55,48,212,0.35);
+    font-size: 22px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+    cursor: pointer; margin-top: 20px; margin-bottom: 8px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all 0.15s; box-shadow: 0 6px 20px rgba(55,48,212,0.35);
   }
   .btn-recogido:active { transform: scale(0.98); background: var(--azul-oscuro); }
-  .btn-recogido.guardado {
-    background: var(--verde);
-    box-shadow: 0 6px 20px rgba(34,197,94,0.35);
-  }
+  .btn-recogido.guardado { background: var(--verde); box-shadow: 0 6px 20px rgba(34,197,94,0.35); }
 
-  /* ── HISTORIAL ── */
+  /* HISTORIAL */
   .historial-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 24px;
-    margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 24px; margin-bottom: 12px;
   }
-  .historial-lista { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
   .historial-item {
-    background: white;
-    border-radius: 12px;
-    padding: 12px 16px;
+    background: white; border-radius: 12px; padding: 12px 16px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    margin-bottom: 8px;
+  }
+  .historial-item-fila {
+    display: flex; justify-content: space-between; align-items: center;
   }
   .historial-fecha { font-size: 13px; color: var(--texto-suave); font-weight: 600; }
   .historial-nivel {
-    font-size: 13px;
-    font-weight: 700;
-    background: var(--azul);
-    color: white;
-    padding: 3px 10px;
-    border-radius: 20px;
+    font-size: 13px; font-weight: 700;
+    background: var(--azul); color: white;
+    padding: 3px 10px; border-radius: 20px;
   }
   .historial-nivel.desbordado { background: var(--rojo); }
   .historial-nivel.vacio { background: var(--texto-suave); }
-  .historial-incidencia {
-    font-size: 12px;
-    color: var(--amarillo);
-    margin-top: 4px;
-    font-weight: 600;
+  .historial-incidencia { font-size: 12px; color: var(--amarillo); margin-top: 4px; font-weight: 600; }
+  .btn-borrar-entrada {
+    background: none; border: none; color: var(--rojo);
+    font-size: 18px; cursor: pointer; padding: 4px 6px;
+    border-radius: 8px; margin-left: 8px; flex-shrink: 0;
   }
+  .btn-borrar-entrada:active { background: #fff0f0; }
 
-  /* ── PANTALLA HISTORIAL GENERAL ── */
-  .historial-general { flex: 1; overflow-y: auto; padding: 16px; }
+  /* HISTORIAL GENERAL */
   .historial-grupo-titulo {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--texto-suave);
-    margin: 16px 0 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--texto-suave); margin: 16px 0 8px;
   }
   .historial-general-item {
-    background: white;
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
+    background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
+  .hgi-fila { display: flex; justify-content: space-between; align-items: flex-start; }
   .hgi-pueblo { font-size: 16px; font-weight: 700; }
   .hgi-meta { font-size: 13px; color: var(--texto-suave); margin-top: 4px; }
   .hgi-nivel {
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 700;
-    background: var(--azul);
-    color: white;
-    padding: 2px 10px;
-    border-radius: 20px;
-    margin-top: 6px;
+    display: inline-block; font-size: 12px; font-weight: 700;
+    background: var(--azul); color: white; padding: 2px 10px; border-radius: 20px; margin-top: 6px;
   }
+  .hgi-nivel.desbordado { background: var(--rojo); }
+  .hgi-nivel.vacio { background: var(--texto-suave); }
+  .hgi-acciones { display: flex; align-items: center; gap: 8px; }
 
-  /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: #1a1a2e;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-weight: 700;
-    font-size: 14px;
-    z-index: 999;
-    transition: transform 0.3s;
-    white-space: nowrap;
-  }
-  .toast.visible { transform: translateX(-50%) translateY(0); }
-
-  /* ── EXPORTAR ── */
+  /* EXPORTAR */
   .btn-exportar {
-    width: calc(100% - 40px);
-    margin: 0 20px 20px;
-    background: white;
-    color: var(--azul);
-    border: 2px solid var(--azul);
-    border-radius: 12px;
-    padding: 16px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.15s;
+    margin: 0 16px 16px; background: white; color: var(--azul);
+    border: 2px solid var(--azul); border-radius: 12px; padding: 16px;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    flex-shrink: 0;
   }
   .btn-exportar:active { background: #f0f0ff; }
 
-  .empty-state {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--texto-suave);
-  }
+  /* EMPTY STATE */
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--texto-suave); }
   .empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
   .empty-state p { font-size: 15px; font-weight: 600; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 30px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #1a1a2e; color: white;
+    padding: 12px 24px; border-radius: 30px;
+    font-weight: 700; font-size: 14px; z-index: 9999;
+    transition: transform 0.3s; white-space: nowrap;
+  }
+  .toast.visible { transform: translateX(-50%) translateY(0); }
+
+  /* MODAL CONFIRMAR BORRADO */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5); z-index: 8888;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.visible { display: flex; }
+  .modal {
+    background: white; border-radius: 20px; padding: 28px 24px;
+    margin: 20px; max-width: 320px; width: 100%; text-align: center;
+  }
+  .modal h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .modal p { font-size: 14px; color: var(--texto-suave); margin-bottom: 24px; }
+  .modal-botones { display: flex; gap: 12px; }
+  .modal-btn {
+    flex: 1; padding: 14px; border: none; border-radius: 12px;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800;
+    cursor: pointer; letter-spacing: 1px;
+  }
+  .modal-btn.cancelar { background: var(--gris-fondo); color: var(--texto); }
+  .modal-btn.confirmar { background: var(--rojo); color: white; }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- PANTALLA: INICIO -->
-<!-- ═══════════════════════════════════════ -->
+<!-- INICIO -->
 <div class="pantalla activa" id="p-inicio">
-  <div class="inicio-hero">
-    <div class="emoji-row">🟡🔵🟢🟤</div>
-    <h1>Ruta Envases</h1>
-    <p>Temporada Baja</p>
-  </div>
-  <div class="inicio-body">
-    <h2>¿Cómo quieres buscar?</h2>
-    <button class="btn-grande" onclick="ir('p-dias')">
-      <span class="icono">📅</span> Por Día de Ruta
-    </button>
-    <button class="btn-grande" onclick="ir('p-sectores')">
-      <span class="icono">🗺️</span> Por Sector
-    </button>
-    <button class="btn-grande secundario" onclick="ir('p-historial')">
-      <span class="icono">📋</span> Ver Historial
-    </button>
+  <div class="scroll-body">
+    <div class="inicio-hero">
+      <div class="emoji-row">🟡🔵🟢🟤</div>
+      <h1>Ruta Envases</h1>
+      <p>Temporada Baja</p>
+    </div>
+    <div class="inicio-body">
+      <h2>¿Cómo quieres buscar?</h2>
+      <button class="btn-grande" onclick="ir('p-dias')"><span class="icono">📅</span> Por Día de Ruta</button>
+      <button class="btn-grande" onclick="ir('p-sectores')"><span class="icono">🗺️</span> Por Sector</button>
+      <button class="btn-grande secundario" onclick="ir('p-historial')"><span class="icono">📋</span> Ver Historial</button>
+    </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- PANTALLA: DÍAS -->
-<!-- ═══════════════════════════════════════ -->
+<!-- DÍAS -->
 <div class="pantalla" id="p-dias">
   <div class="header">
     <button class="btn-back" onclick="ir('p-inicio')">←</button>
     <h1>Día de Ruta</h1>
   </div>
-  <div class="lista-botones">
-    <button class="btn-grande" onclick="mostrarPueblosPorDia('Lunes')">
-      <span class="icono">📅</span> Lunes
-    </button>
-    <button class="btn-grande" onclick="mostrarPueblosPorDia('Martes')">
-      <span class="icono">📅</span> Martes
-    </button>
-    <button class="btn-grande" onclick="mostrarPueblosPorDia('Miercoles')">
-      <span class="icono">📅</span> Miércoles
-    </button>
-    <button class="btn-grande" onclick="mostrarPueblosPorDia('Jueves')">
-      <span class="icono">📅</span> Jueves
-    </button>
-    <button class="btn-grande" onclick="mostrarPueblosPorDia('Viernes')">
-      <span class="icono">📅</span> Viernes
-    </button>
+  <div class="scroll-body">
+    <div class="lista-botones">
+      <button class="btn-grande" onclick="mostrarPueblosPorDia('Lunes')"><span class="icono">📅</span> Lunes</button>
+      <button class="btn-grande" onclick="mostrarPueblosPorDia('Martes')"><span class="icono">📅</span> Martes</button>
+      <button class="btn-grande" onclick="mostrarPueblosPorDia('Miercoles')"><span class="icono">📅</span> Miércoles</button>
+      <button class="btn-grande" onclick="mostrarPueblosPorDia('Jueves')"><span class="icono">📅</span> Jueves</button>
+      <button class="btn-grande" onclick="mostrarPueblosPorDia('Viernes')"><span class="icono">📅</span> Viernes</button>
+    </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- PANTALLA: SECTORES -->
-<!-- ═══════════════════════════════════════ -->
+<!-- SECTORES -->
 <div class="pantalla" id="p-sectores">
   <div class="header">
     <button class="btn-back" onclick="ir('p-inicio')">←</button>
     <h1>Sectores</h1>
   </div>
-  <div class="lista-botones">
-    <button class="btn-grande" onclick="mostrarPueblosPorSector('Norte')">
-      <span class="icono">⬆️</span> Sector Norte
-    </button>
-    <button class="btn-grande" onclick="mostrarPueblosPorSector('Este1')">
-      <span class="icono">➡️</span> Sector Este I
-    </button>
-    <button class="btn-grande" onclick="mostrarPueblosPorSector('Este2')">
-      <span class="icono">↗️</span> Sector Este II
-    </button>
-    <button class="btn-grande" onclick="mostrarPueblosPorSector('Sur')">
-      <span class="icono">⬇️</span> Sector Sur
-    </button>
-    <button class="btn-grande" onclick="mostrarPueblosPorSector('Centro')">
-      <span class="icono">🎯</span> Sector Centro
-    </button>
+  <div class="scroll-body">
+    <div class="lista-botones">
+      <button class="btn-grande" onclick="mostrarPueblosPorSector('Norte')"><span class="icono">⬆️</span> Sector Norte</button>
+      <button class="btn-grande" onclick="mostrarPueblosPorSector('Este1')"><span class="icono">➡️</span> Sector Este I</button>
+      <button class="btn-grande" onclick="mostrarPueblosPorSector('Este2')"><span class="icono">↗️</span> Sector Este II</button>
+      <button class="btn-grande" onclick="mostrarPueblosPorSector('Sur')"><span class="icono">⬇️</span> Sector Sur</button>
+      <button class="btn-grande" onclick="mostrarPueblosPorSector('Centro')"><span class="icono">🎯</span> Sector Centro</button>
+    </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- PANTALLA: LISTA PUEBLOS -->
-<!-- ═══════════════════════════════════════ -->
+<!-- PUEBLOS -->
 <div class="pantalla" id="p-pueblos">
   <div class="header">
-    <button class="btn-back" id="pueblos-back" onclick="irAtras()">←</button>
+    <button class="btn-back" onclick="irAtras()">←</button>
     <h1 id="pueblos-titulo">Pueblos</h1>
   </div>
   <div class="buscador-wrap">
     <input class="buscador" type="text" placeholder="Buscar pueblo..." id="buscador-input" oninput="filtrarPueblos()" autocomplete="off">
   </div>
-  <div class="lista-pueblos" id="lista-pueblos"></div>
+  <div class="scroll-body" id="lista-pueblos"></div>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- PANTALLA: DETALLE PUEBLO -->
-<!-- ═══════════════════════════════════════ -->
+<!-- DETALLE -->
 <div class="pantalla" id="p-detalle">
   <div class="header">
     <button class="btn-back" onclick="ir('p-pueblos')">←</button>
     <h1 id="detalle-titulo-header">Detalle</h1>
   </div>
-  <div class="contenido">
-    <div class="detalle-header-info">
-      <div class="detalle-titulo" id="detalle-nombre"></div>
-      <div class="detalle-subtitulo" id="detalle-sector-dia"></div>
-      <div style="margin-top:12px">
-        <div class="detalle-fila">
-          <span class="detalle-label">Contenedores</span>
-          <span class="detalle-valor" id="detalle-contenedores"></span>
+  <div class="scroll-body">
+    <div class="detalle-pad">
+      <div class="detalle-header-info">
+        <div class="detalle-titulo" id="detalle-nombre"></div>
+        <div class="detalle-subtitulo" id="detalle-sector-dia"></div>
+        <div style="margin-top:12px">
+          <div class="detalle-fila">
+            <span class="detalle-label">Contenedores</span>
+            <span class="detalle-valor" id="detalle-contenedores"></span>
+          </div>
         </div>
       </div>
+
+      <div class="seccion-titulo">Nivel de llenado</div>
+      <div class="niveles-grid">
+        <button class="btn-nivel" data-nivel="VACÍO" onclick="seleccionarNivel(this)"><span class="nivel-emoji">⬜</span>VACÍO</button>
+        <button class="btn-nivel" data-nivel="25%" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🟩</span>25%</button>
+        <button class="btn-nivel" data-nivel="50%" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🟨</span>50%</button>
+        <button class="btn-nivel" data-nivel="75%" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🟧</span>75%</button>
+        <button class="btn-nivel" data-nivel="100%" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🟥</span>100%</button>
+        <button class="btn-nivel" data-nivel="DESBORDADO" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🚨</span>DESB.</button>
+      </div>
+
+      <div class="seccion-titulo">Incidencias</div>
+      <textarea class="textarea-incidencias" id="incidencias-input" placeholder="Escribe una nota..."></textarea>
+
+      <button class="btn-recogido" id="btn-recogido" onclick="guardarRecogida()">⬇️ RECOGIDO</button>
+
+      <div class="historial-header">
+        <div class="seccion-titulo" style="margin:0">Historial</div>
+      </div>
+      <div id="historial-pueblo"></div>
     </div>
-
-    <div class="seccion-titulo">Nivel de llenado</div>
-    <div class="niveles-grid" id="niveles-grid">
-      <button class="btn-nivel" data-nivel="VACÍO" onclick="seleccionarNivel(this)">
-        <span class="nivel-emoji">⬜</span>VACÍO
-      </button>
-      <button class="btn-nivel" data-nivel="25%" onclick="seleccionarNivel(this)">
-        <span class="nivel-emoji">🟩</span>25%
-      </button>
-      <button class="btn-nivel" data-nivel="50%" onclick="seleccionarNivel(this)">
-        <span class="nivel-emoji">🟨</span>50%
-      </button>
-      <button class="btn-nivel" data-nivel="75%" onclick="seleccionarNivel(this)">
-        <span class="nivel-emoji">🟧</span>75%
-      </button>
-      <button class="btn-nivel" data-nivel="100%" onclick="seleccionarNivel(this)">
-        <span class="nivel-emoji">🟥</span>100%
-      </button>
-      <button class="btn-nivel" data-nivel="DESBORDADO" onclick="seleccionarNivel(this)">
-        <span class="nivel-emoji">🚨</span>DESB.
-      </button>
-    </div>
-
-    <div class="seccion-titulo" style="margin-top:20px">Incidencias</div>
-    <textarea class="textarea-incidencias" id="incidencias-input" placeholder="Escribe una nota..."></textarea>
-
-    <button class="btn-recogido" id="btn-recogido" onclick="guardarRecogida()">
-      ⬇️ RECOGIDO
-    </button>
-
-    <div class="historial-header">
-      <div class="seccion-titulo" style="margin:0">Historial</div>
-    </div>
-    <div class="historial-lista" id="historial-pueblo"></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- PANTALLA: HISTORIAL GENERAL -->
-<!-- ═══════════════════════════════════════ -->
+<!-- HISTORIAL GENERAL -->
 <div class="pantalla" id="p-historial">
   <div class="header">
     <button class="btn-back" onclick="ir('p-inicio')">←</button>
     <h1>Historial General</h1>
   </div>
-  <div class="historial-general" id="historial-general-lista"></div>
-  <button class="btn-exportar" onclick="exportarCSV()">
-    📥 Exportar a CSV
-  </button>
+  <div class="scroll-body" id="historial-general-lista"></div>
+  <button class="btn-exportar" onclick="exportarCSV()">📥 Exportar a CSV</button>
+</div>
+
+<!-- MODAL CONFIRMAR BORRADO -->
+<div class="modal-overlay" id="modal-borrar">
+  <div class="modal">
+    <h3>¿Borrar entrada?</h3>
+    <p>Esta acción no se puede deshacer.</p>
+    <div class="modal-botones">
+      <button class="modal-btn cancelar" onclick="cerrarModal()">Cancelar</button>
+      <button class="modal-btn confirmar" onclick="confirmarBorrado()">Borrar</button>
+    </div>
+  </div>
 </div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════
-// BASE DE DATOS DE PUEBLOS
-// ══════════════════════════════════════════
 const PUEBLOS = [
   { nombre: "Molino", sector: "Norte", dia: "Lunes, Viernes", contenedores: 4 },
   { nombre: "Cuartel", sector: "Norte", dia: "Lunes, Viernes", contenedores: 2 },
@@ -673,46 +515,31 @@ const PUEBLOS = [
   { nombre: "Villanova Carpintero", sector: "Centro", dia: "Viernes", contenedores: 1 },
 ];
 
-// ══════════════════════════════════════════
-// ESTADO DE LA APP
-// ══════════════════════════════════════════
-let pantallasAnteriores = [];
 let pueblosFiltrados = [];
 let puebloActual = null;
 let nivelSeleccionado = null;
 let filtroPorSector = false;
-let filtroActual = '';
+let fechaPendienteBorrar = null;
+let origenHistorial = null; // 'pueblo' o 'general'
 
-// ══════════════════════════════════════════
 // NAVEGACIÓN
-// ══════════════════════════════════════════
 function ir(id) {
   document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
   document.getElementById(id).classList.add('activa');
-  window.scrollTo(0, 0);
+  if (id === 'p-historial') renderizarHistorialGeneral();
 }
 
 function irAtras() {
-  if (filtroPorSector) ir('p-sectores');
-  else ir('p-dias');
+  ir(filtroPorSector ? 'p-sectores' : 'p-dias');
 }
 
-// ══════════════════════════════════════════
-// FILTRADO DE PUEBLOS
-// ══════════════════════════════════════════
+// FILTRADO
 function mostrarPueblosPorDia(dia) {
   filtroPorSector = false;
-  filtroActual = dia;
   let lista;
-  if (dia === 'Lunes') {
-    // Lunes: solo los que tienen recogida lunes+viernes (los 5 del Norte)
-    lista = PUEBLOS.filter(p => p.dia === 'Lunes, Viernes');
-  } else if (dia === 'Viernes') {
-    // Viernes: los que tienen lunes+viernes + los exclusivos del viernes
-    lista = PUEBLOS.filter(p => p.dia === 'Lunes, Viernes' || p.dia === 'Viernes');
-  } else {
-    lista = PUEBLOS.filter(p => p.dia === dia);
-  }
+  if (dia === 'Lunes') lista = PUEBLOS.filter(p => p.dia === 'Lunes, Viernes');
+  else if (dia === 'Viernes') lista = PUEBLOS.filter(p => p.dia === 'Lunes, Viernes' || p.dia === 'Viernes');
+  else lista = PUEBLOS.filter(p => p.dia === dia);
   pueblosFiltrados = lista;
   document.getElementById('pueblos-titulo').textContent = dia;
   renderizarPueblos(lista);
@@ -722,7 +549,6 @@ function mostrarPueblosPorDia(dia) {
 
 function mostrarPueblosPorSector(sector) {
   filtroPorSector = true;
-  filtroActual = sector;
   const lista = PUEBLOS.filter(p => p.sector === sector);
   pueblosFiltrados = lista;
   const nombres = { Norte: 'Sector Norte', Este1: 'Sector Este I', Este2: 'Sector Este II', Sur: 'Sector Sur', Centro: 'Sector Centro' };
@@ -734,13 +560,12 @@ function mostrarPueblosPorSector(sector) {
 
 function filtrarPueblos() {
   const q = document.getElementById('buscador-input').value.toLowerCase();
-  const filtrados = pueblosFiltrados.filter(p => p.nombre.toLowerCase().includes(q));
-  renderizarPueblos(filtrados);
+  renderizarPueblos(pueblosFiltrados.filter(p => p.nombre.toLowerCase().includes(q)));
 }
 
 function renderizarPueblos(lista) {
   const cont = document.getElementById('lista-pueblos');
-  if (lista.length === 0) {
+  if (!lista.length) {
     cont.innerHTML = '<div class="empty-state"><div class="emoji">🔍</div><p>No se encontró ningún pueblo</p></div>';
     return;
   }
@@ -752,28 +577,22 @@ function renderizarPueblos(lista) {
         <div class="pueblo-meta">${p.sector} · ${p.contenedores} contenedor${p.contenedores > 1 ? 'es' : ''}</div>
       </div>
       <span class="pueblo-chevron">›</span>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-// ══════════════════════════════════════════
-// DETALLE PUEBLO
-// ══════════════════════════════════════════
+// DETALLE
 function abrirPueblo(nombre) {
   puebloActual = PUEBLOS.find(p => p.nombre === nombre);
   nivelSeleccionado = null;
-
   document.getElementById('detalle-titulo-header').textContent = nombre;
   document.getElementById('detalle-nombre').textContent = nombre;
   document.getElementById('detalle-sector-dia').textContent = `${puebloActual.sector} · ${puebloActual.dia}`;
   document.getElementById('detalle-contenedores').textContent = puebloActual.contenedores;
   document.getElementById('incidencias-input').value = '';
-  document.getElementById('btn-recogido').classList.remove('guardado');
-  document.getElementById('btn-recogido').textContent = '⬇️ RECOGIDO';
-
-  // Limpiar selección niveles
+  const btn = document.getElementById('btn-recogido');
+  btn.classList.remove('guardado');
+  btn.textContent = '⬇️ RECOGIDO';
   document.querySelectorAll('.btn-nivel').forEach(b => b.classList.remove('seleccionado'));
-
   renderizarHistorialPueblo(nombre);
   ir('p-detalle');
 }
@@ -784,15 +603,9 @@ function seleccionarNivel(btn) {
   nivelSeleccionado = btn.dataset.nivel;
 }
 
-// ══════════════════════════════════════════
-// GUARDAR RECOGIDA
-// ══════════════════════════════════════════
+// GUARDAR
 function guardarRecogida() {
-  if (!nivelSeleccionado) {
-    mostrarToast('⚠️ Selecciona el nivel de llenado');
-    return;
-  }
-
+  if (!nivelSeleccionado) { mostrarToast('⚠️ Selecciona el nivel de llenado'); return; }
   const registro = {
     fecha: new Date().toISOString(),
     pueblo: puebloActual.nombre,
@@ -802,44 +615,45 @@ function guardarRecogida() {
     nivel: nivelSeleccionado,
     incidencias: document.getElementById('incidencias-input').value.trim()
   };
-
   const registros = obtenerRegistros();
   registros.unshift(registro);
   localStorage.setItem('registros_ruta', JSON.stringify(registros));
-
   const btn = document.getElementById('btn-recogido');
   btn.classList.add('guardado');
   btn.textContent = '✅ GUARDADO';
-
   mostrarToast('✅ Recogida registrada');
   renderizarHistorialPueblo(puebloActual.nombre);
 }
 
-// ══════════════════════════════════════════
 // HISTORIAL
-// ══════════════════════════════════════════
 function obtenerRegistros() {
   try { return JSON.parse(localStorage.getItem('registros_ruta') || '[]'); } catch { return []; }
+}
+
+function claseNivel(nivel) {
+  return nivel === 'DESBORDADO' ? 'desbordado' : nivel === 'VACÍO' ? 'vacio' : '';
 }
 
 function renderizarHistorialPueblo(nombre) {
   const registros = obtenerRegistros().filter(r => r.pueblo === nombre);
   const cont = document.getElementById('historial-pueblo');
-  if (registros.length === 0) {
+  if (!registros.length) {
     cont.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>Sin registros anteriores</p></div>';
     return;
   }
-  cont.innerHTML = registros.slice(0, 10).map(r => {
+  cont.innerHTML = registros.slice(0, 15).map(r => {
     const fecha = new Date(r.fecha);
     const fechaStr = fecha.toLocaleDateString('es-ES') + ' ' + fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-    const claseNivel = r.nivel === 'DESBORDADO' ? 'desbordado' : r.nivel === 'VACÍO' ? 'vacio' : '';
     return `
       <div class="historial-item">
-        <div>
+        <div class="historial-item-fila">
           <div class="historial-fecha">${fechaStr}</div>
-          ${r.incidencias ? `<div class="historial-incidencia">⚠️ ${r.incidencias}</div>` : ''}
+          <div style="display:flex;align-items:center">
+            <span class="historial-nivel ${claseNivel(r.nivel)}">${r.nivel}</span>
+            <button class="btn-borrar-entrada" onclick="pedirBorrado('${r.fecha}','pueblo')" title="Borrar entrada">🗑️</button>
+          </div>
         </div>
-        <span class="historial-nivel ${claseNivel}">${r.nivel}</span>
+        ${r.incidencias ? `<div class="historial-incidencia">⚠️ ${r.incidencias}</div>` : ''}
       </div>`;
   }).join('');
 }
@@ -847,50 +661,68 @@ function renderizarHistorialPueblo(nombre) {
 function renderizarHistorialGeneral() {
   const registros = obtenerRegistros();
   const cont = document.getElementById('historial-general-lista');
-  if (registros.length === 0) {
+  if (!registros.length) {
     cont.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>No hay registros todavía</p></div>';
     return;
   }
-  // Agrupar por fecha
   const grupos = {};
   registros.forEach(r => {
     const fecha = new Date(r.fecha).toLocaleDateString('es-ES');
     if (!grupos[fecha]) grupos[fecha] = [];
     grupos[fecha].push(r);
   });
-
   cont.innerHTML = Object.entries(grupos).map(([fecha, items]) => `
-    <div class="historial-grupo-titulo">${fecha}</div>
-    ${items.map(r => {
-      const claseNivel = r.nivel === 'DESBORDADO' ? 'desbordado' : r.nivel === 'VACÍO' ? 'vacio' : '';
-      return `
+    <div style="padding: 0 16px">
+      <div class="historial-grupo-titulo">${fecha}</div>
+      ${items.map(r => `
         <div class="historial-general-item">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div class="hgi-fila">
             <div class="hgi-pueblo">${r.pueblo}</div>
-            <span class="hgi-nivel ${claseNivel}">${r.nivel}</span>
+            <div class="hgi-acciones">
+              <span class="hgi-nivel ${claseNivel(r.nivel)}">${r.nivel}</span>
+              <button class="btn-borrar-entrada" onclick="pedirBorrado('${r.fecha}','general')" title="Borrar entrada">🗑️</button>
+            </div>
           </div>
           <div class="hgi-meta">${r.sector} · ${new Date(r.fecha).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}</div>
           ${r.incidencias ? `<div class="historial-incidencia">⚠️ ${r.incidencias}</div>` : ''}
-        </div>`;
-    }).join('')}
-  `).join('');
+        </div>`).join('')}
+    </div>`).join('');
 }
 
-// ══════════════════════════════════════════
-// EXPORTAR CSV
-// ══════════════════════════════════════════
+// BORRADO
+function pedirBorrado(fecha, origen) {
+  fechaPendienteBorrar = fecha;
+  origenHistorial = origen;
+  document.getElementById('modal-borrar').classList.add('visible');
+}
+
+function cerrarModal() {
+  fechaPendienteBorrar = null;
+  origenHistorial = null;
+  document.getElementById('modal-borrar').classList.remove('visible');
+}
+
+function confirmarBorrado() {
+  if (!fechaPendienteBorrar) return;
+  const registros = obtenerRegistros().filter(r => r.fecha !== fechaPendienteBorrar);
+  localStorage.setItem('registros_ruta', JSON.stringify(registros));
+  cerrarModal();
+  mostrarToast('🗑️ Entrada borrada');
+  if (origenHistorial === 'pueblo' && puebloActual) renderizarHistorialPueblo(puebloActual.nombre);
+  if (origenHistorial === 'general') renderizarHistorialGeneral();
+}
+
+// EXPORTAR
 function exportarCSV() {
   const registros = obtenerRegistros();
-  if (registros.length === 0) { mostrarToast('No hay datos para exportar'); return; }
-
-  const cabecera = 'Fecha,Pueblo,Sector,Dia,Contenedores,Nivel,Incidencias\n';
+  if (!registros.length) { mostrarToast('No hay datos para exportar'); return; }
+  const cab = 'Fecha,Pueblo,Sector,Dia,Contenedores,Nivel,Incidencias\n';
   const filas = registros.map(r => {
-    const fecha = new Date(r.fecha).toLocaleString('es-ES');
+    const f = new Date(r.fecha).toLocaleString('es-ES');
     const inc = (r.incidencias || '').replace(/,/g, ';');
-    return `"${fecha}","${r.pueblo}","${r.sector}","${r.dia}",${r.contenedores},"${r.nivel}","${inc}"`;
+    return `"${f}","${r.pueblo}","${r.sector}","${r.dia}",${r.contenedores},"${r.nivel}","${inc}"`;
   }).join('\n');
-
-  const blob = new Blob([cabecera + filas], { type: 'text/csv;charset=utf-8;' });
+  const blob = new Blob([cab + filas], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -900,30 +732,13 @@ function exportarCSV() {
   mostrarToast('📥 CSV descargado');
 }
 
-// ══════════════════════════════════════════
 // TOAST
-// ══════════════════════════════════════════
 function mostrarToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('visible');
   setTimeout(() => t.classList.remove('visible'), 2500);
 }
-
-// ══════════════════════════════════════════
-// HOOKS DE NAVEGACIÓN
-// ══════════════════════════════════════════
-document.getElementById('p-historial').addEventListener('transitionend', () => {});
-document.querySelector('#p-historial .btn-back').addEventListener('click', () => {
-  renderizarHistorialGeneral();
-});
-
-// Cargar historial al entrar
-const originalIr = ir;
-window.ir = function(id) {
-  if (id === 'p-historial') renderizarHistorialGeneral();
-  originalIr(id);
-};
 </script>
 </body>
 </html>
