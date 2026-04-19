@@ -10,6 +10,13 @@
 <meta name="theme-color" content="#3730d4">
 <link rel="manifest" href="manifest.json">
 <title>Ruta Envases</title>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Barlow+Condensed:wght@700;800&display=swap');
 
@@ -26,9 +33,7 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
   html { height: 100%; }
-
   body {
     font-family: 'Barlow', sans-serif;
     background: var(--gris-fondo);
@@ -54,7 +59,6 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  /* HEADER */
   .header {
     background: var(--azul);
     color: white;
@@ -65,81 +69,45 @@
     flex-shrink: 0;
     box-shadow: 0 2px 12px rgba(55,48,212,0.3);
   }
-  .header h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px; font-weight: 800;
-    letter-spacing: 1px; text-transform: uppercase;
-  }
+  .header h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
   .btn-back {
     background: rgba(255,255,255,0.2); border: none; color: white;
     width: 36px; height: 36px; border-radius: 50%; font-size: 18px;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
   .btn-back:active { background: rgba(255,255,255,0.35); }
 
-  /* INICIO */
   #p-inicio { background: var(--azul); }
   .inicio-hero { padding: 32px 24px 24px; color: white; }
   .inicio-hero .emoji-row { font-size: 48px; margin-bottom: 20px; display: flex; gap: 8px; }
-  .inicio-hero h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 36px; font-weight: 800; letter-spacing: 2px;
-    text-transform: uppercase; line-height: 1; margin-bottom: 6px;
-  }
-  .inicio-hero p {
-    font-size: 13px; font-weight: 600; letter-spacing: 3px;
-    text-transform: uppercase; opacity: 0.7; margin-bottom: 28px;
-  }
-  .inicio-body {
-    background: var(--gris-fondo);
-    border-radius: 28px 28px 0 0;
-    padding: 28px 20px 40px;
-  }
-  .inicio-body h2 {
-    font-size: 13px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--texto-suave); margin-bottom: 14px;
-  }
+  .inicio-hero h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; line-height: 1; margin-bottom: 6px; }
+  .inicio-hero p { font-size: 13px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; opacity: 0.7; margin-bottom: 28px; }
+  .inicio-body { background: var(--gris-fondo); border-radius: 28px 28px 0 0; padding: 28px 20px 40px; }
+  .inicio-body h2 { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-suave); margin-bottom: 14px; }
 
-  /* BOTONES GRANDES */
   .btn-grande {
     width: 100%; background: var(--azul); color: white; border: none;
     border-radius: 16px; padding: 20px 24px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-    cursor: pointer; display: flex; align-items: center; gap: 14px;
-    margin-bottom: 12px; transition: all 0.15s;
-    box-shadow: 0 4px 16px rgba(55,48,212,0.25);
+    font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; display: flex; align-items: center; gap: 14px; margin-bottom: 12px;
+    transition: all 0.15s; box-shadow: 0 4px 16px rgba(55,48,212,0.25);
   }
   .btn-grande:active { transform: scale(0.98); background: var(--azul-oscuro); }
   .btn-grande .icono { font-size: 24px; }
-  .btn-grande.secundario {
-    background: white; color: var(--azul);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    border: 2px solid var(--gris-borde);
-  }
+  .btn-grande.secundario { background: white; color: var(--azul); box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 2px solid var(--gris-borde); }
   .btn-grande.secundario:active { background: var(--gris-fondo); }
 
   .lista-botones { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
 
-  /* BUSCADOR */
-  .buscador-wrap {
-    padding: 14px 16px; background: white;
-    border-bottom: 1px solid var(--gris-borde); flex-shrink: 0;
-  }
+  .buscador-wrap { padding: 14px 16px; background: white; border-bottom: 1px solid var(--gris-borde); flex-shrink: 0; }
   .buscador {
-    width: 100%; background: var(--gris-fondo); border: none;
-    border-radius: 12px; padding: 12px 16px 12px 40px;
+    width: 100%; background: var(--gris-fondo); border: none; border-radius: 12px; padding: 12px 16px 12px 40px;
     font-family: 'Barlow', sans-serif; font-size: 16px; color: var(--texto); outline: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237070a0' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
     background-repeat: no-repeat; background-position: 12px center;
   }
 
-  /* PUEBLOS */
-  .pueblo-item {
-    display: flex; align-items: center; padding: 16px 20px;
-    border-bottom: 1px solid var(--gris-borde); background: white; cursor: pointer; gap: 14px;
-  }
+  .pueblo-item { display: flex; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--gris-borde); background: white; cursor: pointer; gap: 14px; }
   .pueblo-item:active { background: #f0f0ff; }
   .pueblo-icono { font-size: 22px; }
   .pueblo-info { flex: 1; }
@@ -147,166 +115,77 @@
   .pueblo-meta { font-size: 12px; color: var(--texto-suave); margin-top: 2px; }
   .pueblo-chevron { color: var(--texto-suave); font-size: 18px; }
 
-  /* DETALLE */
   .detalle-pad { padding: 20px; }
-  .detalle-header-info {
-    background: white; border-radius: 16px; padding: 18px; margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-  .detalle-titulo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 28px; font-weight: 800; color: var(--texto);
-    text-transform: uppercase; letter-spacing: 1px;
-  }
+  .detalle-header-info { background: white; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .detalle-titulo { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; color: var(--texto); text-transform: uppercase; letter-spacing: 1px; }
   .detalle-subtitulo { font-size: 14px; color: var(--texto-suave); margin-top: 2px; font-weight: 600; }
-  .detalle-fila {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 0; border-bottom: 1px solid var(--gris-borde);
-  }
+  .detalle-fila { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--gris-borde); }
   .detalle-fila:last-child { border-bottom: none; }
   .detalle-label { font-size: 14px; color: var(--texto-suave); font-weight: 600; }
   .detalle-valor { font-size: 16px; font-weight: 700; color: var(--texto); }
 
-  /* NIVELES */
-  .seccion-titulo {
-    font-size: 13px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--texto-suave);
-    margin-bottom: 12px; margin-top: 20px;
-  }
+  .seccion-titulo { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-suave); margin-bottom: 12px; margin-top: 20px; }
   .niveles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 8px; }
   .btn-nivel {
-    border: 2px solid var(--gris-borde); background: white; border-radius: 12px;
-    padding: 14px 8px;
-    font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 800;
-    color: var(--texto); cursor: pointer; text-align: center;
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    transition: all 0.15s;
+    border: 2px solid var(--gris-borde); background: white; border-radius: 12px; padding: 14px 8px;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 800; color: var(--texto);
+    cursor: pointer; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all 0.15s;
   }
   .btn-nivel .nivel-emoji { font-size: 20px; }
   .btn-nivel:active { transform: scale(0.96); }
-  .btn-nivel.seleccionado {
-    background: var(--azul); border-color: var(--azul); color: white;
-    box-shadow: 0 4px 12px rgba(55,48,212,0.3);
-  }
+  .btn-nivel.seleccionado { background: var(--azul); border-color: var(--azul); color: white; box-shadow: 0 4px 12px rgba(55,48,212,0.3); }
 
-  /* INCIDENCIAS */
-  .textarea-incidencias {
-    width: 100%; background: white; border: 2px solid var(--gris-borde);
-    border-radius: 12px; padding: 14px;
-    font-family: 'Barlow', sans-serif; font-size: 15px; color: var(--texto);
-    resize: none; height: 90px; outline: none; transition: border-color 0.2s;
-  }
+  .textarea-incidencias { width: 100%; background: white; border: 2px solid var(--gris-borde); border-radius: 12px; padding: 14px; font-family: 'Barlow', sans-serif; font-size: 15px; color: var(--texto); resize: none; height: 90px; outline: none; transition: border-color 0.2s; }
   .textarea-incidencias:focus { border-color: var(--azul); }
   .textarea-incidencias::placeholder { color: var(--texto-suave); }
 
-  /* BOTÓN RECOGIDO */
   .btn-recogido {
-    width: 100%; background: var(--azul); color: white; border: none;
-    border-radius: 16px; padding: 22px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 22px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
-    cursor: pointer; margin-top: 20px; margin-bottom: 8px;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; background: var(--azul); color: white; border: none; border-radius: 16px; padding: 22px;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+    cursor: pointer; margin-top: 20px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 10px;
     transition: all 0.15s; box-shadow: 0 6px 20px rgba(55,48,212,0.35);
   }
   .btn-recogido:active { transform: scale(0.98); background: var(--azul-oscuro); }
   .btn-recogido.guardado { background: var(--verde); box-shadow: 0 6px 20px rgba(34,197,94,0.35); }
 
-  /* HISTORIAL */
-  .historial-header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 24px; margin-bottom: 12px;
-  }
-  .historial-item {
-    background: white; border-radius: 12px; padding: 12px 16px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    margin-bottom: 8px;
-  }
-  .historial-item-fila {
-    display: flex; justify-content: space-between; align-items: center;
-  }
+  .historial-header { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; margin-bottom: 12px; }
+  .historial-item { background: white; border-radius: 12px; padding: 12px 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); margin-bottom: 8px; }
+  .historial-item-fila { display: flex; justify-content: space-between; align-items: center; }
   .historial-fecha { font-size: 13px; color: var(--texto-suave); font-weight: 600; }
-  .historial-nivel {
-    font-size: 13px; font-weight: 700;
-    background: var(--azul); color: white;
-    padding: 3px 10px; border-radius: 20px;
-  }
+  .historial-nivel { font-size: 13px; font-weight: 700; background: var(--azul); color: white; padding: 3px 10px; border-radius: 20px; }
   .historial-nivel.desbordado { background: var(--rojo); }
   .historial-nivel.vacio { background: var(--texto-suave); }
   .historial-incidencia { font-size: 12px; color: var(--amarillo); margin-top: 4px; font-weight: 600; }
-  .btn-borrar-entrada {
-    background: none; border: none; color: var(--rojo);
-    font-size: 18px; cursor: pointer; padding: 4px 6px;
-    border-radius: 8px; margin-left: 8px; flex-shrink: 0;
-  }
+  .btn-borrar-entrada { background: none; border: none; color: var(--rojo); font-size: 18px; cursor: pointer; padding: 4px 6px; border-radius: 8px; margin-left: 8px; flex-shrink: 0; }
   .btn-borrar-entrada:active { background: #fff0f0; }
 
-  /* HISTORIAL GENERAL */
-  .historial-grupo-titulo {
-    font-size: 12px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--texto-suave); margin: 16px 0 8px;
-  }
-  .historial-general-item {
-    background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  }
+  .historial-grupo-titulo { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--texto-suave); margin: 16px 0 8px; }
+  .historial-general-item { background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
   .hgi-fila { display: flex; justify-content: space-between; align-items: flex-start; }
   .hgi-pueblo { font-size: 16px; font-weight: 700; }
   .hgi-meta { font-size: 13px; color: var(--texto-suave); margin-top: 4px; }
-  .hgi-nivel {
-    display: inline-block; font-size: 12px; font-weight: 700;
-    background: var(--azul); color: white; padding: 2px 10px; border-radius: 20px; margin-top: 6px;
-  }
+  .hgi-nivel { display: inline-block; font-size: 12px; font-weight: 700; background: var(--azul); color: white; padding: 2px 10px; border-radius: 20px; margin-top: 6px; }
   .hgi-nivel.desbordado { background: var(--rojo); }
   .hgi-nivel.vacio { background: var(--texto-suave); }
   .hgi-acciones { display: flex; align-items: center; gap: 8px; }
 
-  /* EXPORTAR */
-  .btn-exportar {
-    margin: 0 16px 16px; background: white; color: var(--azul);
-    border: 2px solid var(--azul); border-radius: 12px; padding: 16px;
-    font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800;
-    letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    flex-shrink: 0;
-  }
+  .btn-exportar { margin: 0 16px 16px; background: white; color: var(--azul); border: 2px solid var(--azul); border-radius: 12px; padding: 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; flex-shrink: 0; }
   .btn-exportar:active { background: #f0f0ff; }
 
-  /* EMPTY STATE */
   .empty-state { text-align: center; padding: 40px 20px; color: var(--texto-suave); }
   .empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
   .empty-state p { font-size: 15px; font-weight: 600; }
 
-  /* TOAST */
-  .toast {
-    position: fixed; bottom: 30px; left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: #1a1a2e; color: white;
-    padding: 12px 24px; border-radius: 30px;
-    font-weight: 700; font-size: 14px; z-index: 9999;
-    transition: transform 0.3s; white-space: nowrap;
-  }
+  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1a1a2e; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 700; font-size: 14px; z-index: 9999; transition: transform 0.3s; white-space: nowrap; }
   .toast.visible { transform: translateX(-50%) translateY(0); }
 
-  /* MODAL CONFIRMAR BORRADO */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5); z-index: 8888;
-    align-items: center; justify-content: center;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 8888; align-items: center; justify-content: center; }
   .modal-overlay.visible { display: flex; }
-  .modal {
-    background: white; border-radius: 20px; padding: 28px 24px;
-    margin: 20px; max-width: 320px; width: 100%; text-align: center;
-  }
+  .modal { background: white; border-radius: 20px; padding: 28px 24px; margin: 20px; max-width: 320px; width: 100%; text-align: center; }
   .modal h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
   .modal p { font-size: 14px; color: var(--texto-suave); margin-bottom: 24px; }
   .modal-botones { display: flex; gap: 12px; }
-  .modal-btn {
-    flex: 1; padding: 14px; border: none; border-radius: 12px;
-    font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800;
-    cursor: pointer; letter-spacing: 1px;
-  }
+  .modal-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800; cursor: pointer; letter-spacing: 1px; }
   .modal-btn.cancelar { background: var(--gris-fondo); color: var(--texto); }
   .modal-btn.confirmar { background: var(--rojo); color: white; }
 </style>
@@ -394,7 +273,6 @@
           </div>
         </div>
       </div>
-
       <div class="seccion-titulo">Nivel de llenado</div>
       <div class="niveles-grid">
         <button class="btn-nivel" data-nivel="VACÍO" onclick="seleccionarNivel(this)"><span class="nivel-emoji">⬜</span>VACÍO</button>
@@ -404,12 +282,9 @@
         <button class="btn-nivel" data-nivel="100%" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🟥</span>100%</button>
         <button class="btn-nivel" data-nivel="DESBORDADO" onclick="seleccionarNivel(this)"><span class="nivel-emoji">🚨</span>DESB.</button>
       </div>
-
       <div class="seccion-titulo">Incidencias</div>
       <textarea class="textarea-incidencias" id="incidencias-input" placeholder="Escribe una nota..."></textarea>
-
       <button class="btn-recogido" id="btn-recogido" onclick="guardarRecogida()">⬇️ RECOGIDO</button>
-
       <div class="historial-header">
         <div class="seccion-titulo" style="margin:0">Historial</div>
       </div>
@@ -428,7 +303,7 @@
   <button class="btn-exportar" onclick="exportarCSV()">📥 Exportar a CSV</button>
 </div>
 
-<!-- MODAL CONFIRMAR BORRADO -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal-borrar">
   <div class="modal">
     <h3>¿Borrar entrada?</h3>
@@ -440,7 +315,6 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -515,25 +389,17 @@ const PUEBLOS = [
   { nombre: "Villanova Carpintero", sector: "Centro", dia: "Viernes", contenedores: 1 },
 ];
 
-let pueblosFiltrados = [];
-let puebloActual = null;
-let nivelSeleccionado = null;
-let filtroPorSector = false;
-let fechaPendienteBorrar = null;
-let origenHistorial = null; // 'pueblo' o 'general'
+let pueblosFiltrados = [], puebloActual = null, nivelSeleccionado = null;
+let filtroPorSector = false, fechaPendienteBorrar = null, origenHistorial = null;
 
-// NAVEGACIÓN
 function ir(id) {
   document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
   document.getElementById(id).classList.add('activa');
   if (id === 'p-historial') renderizarHistorialGeneral();
 }
 
-function irAtras() {
-  ir(filtroPorSector ? 'p-sectores' : 'p-dias');
-}
+function irAtras() { ir(filtroPorSector ? 'p-sectores' : 'p-dias'); }
 
-// FILTRADO
 function mostrarPueblosPorDia(dia) {
   filtroPorSector = false;
   let lista;
@@ -551,7 +417,7 @@ function mostrarPueblosPorSector(sector) {
   filtroPorSector = true;
   const lista = PUEBLOS.filter(p => p.sector === sector);
   pueblosFiltrados = lista;
-  const nombres = { Norte: 'Sector Norte', Este1: 'Sector Este I', Este2: 'Sector Este II', Sur: 'Sector Sur', Centro: 'Sector Centro' };
+  const nombres = { Norte:'Sector Norte', Este1:'Sector Este I', Este2:'Sector Este II', Sur:'Sector Sur', Centro:'Sector Centro' };
   document.getElementById('pueblos-titulo').textContent = nombres[sector] || sector;
   renderizarPueblos(lista);
   document.getElementById('buscador-input').value = '';
@@ -565,10 +431,7 @@ function filtrarPueblos() {
 
 function renderizarPueblos(lista) {
   const cont = document.getElementById('lista-pueblos');
-  if (!lista.length) {
-    cont.innerHTML = '<div class="empty-state"><div class="emoji">🔍</div><p>No se encontró ningún pueblo</p></div>';
-    return;
-  }
+  if (!lista.length) { cont.innerHTML = '<div class="empty-state"><div class="emoji">🔍</div><p>No se encontró ningún pueblo</p></div>'; return; }
   cont.innerHTML = lista.map(p => `
     <div class="pueblo-item" onclick="abrirPueblo('${p.nombre}')">
       <span class="pueblo-icono">📍</span>
@@ -580,7 +443,6 @@ function renderizarPueblos(lista) {
     </div>`).join('');
 }
 
-// DETALLE
 function abrirPueblo(nombre) {
   puebloActual = PUEBLOS.find(p => p.nombre === nombre);
   nivelSeleccionado = null;
@@ -603,17 +465,13 @@ function seleccionarNivel(btn) {
   nivelSeleccionado = btn.dataset.nivel;
 }
 
-// GUARDAR
 function guardarRecogida() {
   if (!nivelSeleccionado) { mostrarToast('⚠️ Selecciona el nivel de llenado'); return; }
   const registro = {
     fecha: new Date().toISOString(),
-    pueblo: puebloActual.nombre,
-    sector: puebloActual.sector,
-    dia: puebloActual.dia,
-    contenedores: puebloActual.contenedores,
-    nivel: nivelSeleccionado,
-    incidencias: document.getElementById('incidencias-input').value.trim()
+    pueblo: puebloActual.nombre, sector: puebloActual.sector,
+    dia: puebloActual.dia, contenedores: puebloActual.contenedores,
+    nivel: nivelSeleccionado, incidencias: document.getElementById('incidencias-input').value.trim()
   };
   const registros = obtenerRegistros();
   registros.unshift(registro);
@@ -625,54 +483,40 @@ function guardarRecogida() {
   renderizarHistorialPueblo(puebloActual.nombre);
 }
 
-// HISTORIAL
 function obtenerRegistros() {
   try { return JSON.parse(localStorage.getItem('registros_ruta') || '[]'); } catch { return []; }
 }
 
-function claseNivel(nivel) {
-  return nivel === 'DESBORDADO' ? 'desbordado' : nivel === 'VACÍO' ? 'vacio' : '';
-}
+function claseNivel(n) { return n === 'DESBORDADO' ? 'desbordado' : n === 'VACÍO' ? 'vacio' : ''; }
 
 function renderizarHistorialPueblo(nombre) {
   const registros = obtenerRegistros().filter(r => r.pueblo === nombre);
   const cont = document.getElementById('historial-pueblo');
-  if (!registros.length) {
-    cont.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>Sin registros anteriores</p></div>';
-    return;
-  }
-  cont.innerHTML = registros.slice(0, 15).map(r => {
-    const fecha = new Date(r.fecha);
-    const fechaStr = fecha.toLocaleDateString('es-ES') + ' ' + fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-    return `
-      <div class="historial-item">
-        <div class="historial-item-fila">
-          <div class="historial-fecha">${fechaStr}</div>
-          <div style="display:flex;align-items:center">
-            <span class="historial-nivel ${claseNivel(r.nivel)}">${r.nivel}</span>
-            <button class="btn-borrar-entrada" onclick="pedirBorrado('${r.fecha}','pueblo')" title="Borrar entrada">🗑️</button>
-          </div>
+  if (!registros.length) { cont.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>Sin registros anteriores</p></div>'; return; }
+  cont.innerHTML = registros.slice(0,15).map(r => {
+    const f = new Date(r.fecha);
+    const fs = f.toLocaleDateString('es-ES') + ' ' + f.toLocaleTimeString('es-ES', {hour:'2-digit',minute:'2-digit'});
+    return `<div class="historial-item">
+      <div class="historial-item-fila">
+        <div class="historial-fecha">${fs}</div>
+        <div style="display:flex;align-items:center">
+          <span class="historial-nivel ${claseNivel(r.nivel)}">${r.nivel}</span>
+          <button class="btn-borrar-entrada" onclick="pedirBorrado('${r.fecha}','pueblo')">🗑️</button>
         </div>
-        ${r.incidencias ? `<div class="historial-incidencia">⚠️ ${r.incidencias}</div>` : ''}
-      </div>`;
+      </div>
+      ${r.incidencias ? `<div class="historial-incidencia">⚠️ ${r.incidencias}</div>` : ''}
+    </div>`;
   }).join('');
 }
 
 function renderizarHistorialGeneral() {
   const registros = obtenerRegistros();
   const cont = document.getElementById('historial-general-lista');
-  if (!registros.length) {
-    cont.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>No hay registros todavía</p></div>';
-    return;
-  }
+  if (!registros.length) { cont.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>No hay registros todavía</p></div>'; return; }
   const grupos = {};
-  registros.forEach(r => {
-    const fecha = new Date(r.fecha).toLocaleDateString('es-ES');
-    if (!grupos[fecha]) grupos[fecha] = [];
-    grupos[fecha].push(r);
-  });
+  registros.forEach(r => { const f = new Date(r.fecha).toLocaleDateString('es-ES'); if (!grupos[f]) grupos[f]=[]; grupos[f].push(r); });
   cont.innerHTML = Object.entries(grupos).map(([fecha, items]) => `
-    <div style="padding: 0 16px">
+    <div style="padding:0 16px">
       <div class="historial-grupo-titulo">${fecha}</div>
       ${items.map(r => `
         <div class="historial-general-item">
@@ -680,25 +524,22 @@ function renderizarHistorialGeneral() {
             <div class="hgi-pueblo">${r.pueblo}</div>
             <div class="hgi-acciones">
               <span class="hgi-nivel ${claseNivel(r.nivel)}">${r.nivel}</span>
-              <button class="btn-borrar-entrada" onclick="pedirBorrado('${r.fecha}','general')" title="Borrar entrada">🗑️</button>
+              <button class="btn-borrar-entrada" onclick="pedirBorrado('${r.fecha}','general')">🗑️</button>
             </div>
           </div>
-          <div class="hgi-meta">${r.sector} · ${new Date(r.fecha).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}</div>
+          <div class="hgi-meta">${r.sector} · ${new Date(r.fecha).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}</div>
           ${r.incidencias ? `<div class="historial-incidencia">⚠️ ${r.incidencias}</div>` : ''}
         </div>`).join('')}
     </div>`).join('');
 }
 
-// BORRADO
 function pedirBorrado(fecha, origen) {
-  fechaPendienteBorrar = fecha;
-  origenHistorial = origen;
+  fechaPendienteBorrar = fecha; origenHistorial = origen;
   document.getElementById('modal-borrar').classList.add('visible');
 }
 
 function cerrarModal() {
-  fechaPendienteBorrar = null;
-  origenHistorial = null;
+  fechaPendienteBorrar = null; origenHistorial = null;
   document.getElementById('modal-borrar').classList.remove('visible');
 }
 
@@ -712,31 +553,25 @@ function confirmarBorrado() {
   if (origenHistorial === 'general') renderizarHistorialGeneral();
 }
 
-// EXPORTAR
 function exportarCSV() {
   const registros = obtenerRegistros();
   if (!registros.length) { mostrarToast('No hay datos para exportar'); return; }
   const cab = 'Fecha,Pueblo,Sector,Dia,Contenedores,Nivel,Incidencias\n';
   const filas = registros.map(r => {
     const f = new Date(r.fecha).toLocaleString('es-ES');
-    const inc = (r.incidencias || '').replace(/,/g, ';');
-    return `"${f}","${r.pueblo}","${r.sector}","${r.dia}",${r.contenedores},"${r.nivel}","${inc}"`;
+    return `"${f}","${r.pueblo}","${r.sector}","${r.dia}",${r.contenedores},"${r.nivel}","${(r.incidencias||'').replace(/,/g,';')}"`;
   }).join('\n');
-  const blob = new Blob([cab + filas], { type: 'text/csv;charset=utf-8;' });
+  const blob = new Blob([cab+filas], {type:'text/csv;charset=utf-8;'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url;
-  a.download = `ruta-envases-${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
+  a.href = url; a.download = `ruta-envases-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click(); URL.revokeObjectURL(url);
   mostrarToast('📥 CSV descargado');
 }
 
-// TOAST
 function mostrarToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('visible');
+  t.textContent = msg; t.classList.add('visible');
   setTimeout(() => t.classList.remove('visible'), 2500);
 }
 </script>

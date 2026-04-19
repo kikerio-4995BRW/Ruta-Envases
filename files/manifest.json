@@ -1,0 +1,9 @@
+{
+  "name": "Ruta Envases",
+  "short_name": "Rutas",
+  "start_url": "/Ruta-Envases/",
+  "display": "standalone",
+  "background_color": "#3730d4",
+  "theme_color": "#3730d4",
+  "orientation": "portrait"
+}
