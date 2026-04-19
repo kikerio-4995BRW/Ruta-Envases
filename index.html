@@ -45,9 +45,12 @@
   .btn-back:active { background: rgba(255,255,255,0.35); }
 
   #p-inicio { background: var(--azul); }
-  .inicio-hero { padding: 0; color: white; } .inicio-hero h1 { padding: 0 24px; } .inicio-hero p { padding: 0 24px 28px; }
-  .portada-img { width: 100%; height: 200px; overflow: hidden; border-radius: 0 0 0 0; margin-bottom: 16px; }
-  .portada-img img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .inicio-hero { padding: 0; color: white; }
+  .portada-img { width: 100%; margin-bottom: 0; position: relative; }
+  .portada-img img { width: 100%; height: auto; display: block; }
+  .portada-texto { position: absolute; top: 20px; left: 20px; right: 20px; }
+  .portada-titulo { font-family: "Barlow Condensed", sans-serif; font-size: 13vw; font-weight: 800; color: #1a1a1a; letter-spacing: 3px; text-transform: uppercase; line-height: 1; text-shadow: 3px 3px 8px rgba(255,255,255,0.7); }
+  .portada-subtitulo { font-family: "Barlow Condensed", sans-serif; font-size: 4.5vw; font-weight: 700; color: #1a1a1a; letter-spacing: 5px; text-transform: uppercase; margin-top: 8px; text-shadow: 2px 2px 6px rgba(255,255,255,0.7); }
   .inicio-hero h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; line-height: 1; margin-bottom: 6px; }
   .inicio-hero p { font-size: 13px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; opacity: 0.7; margin-bottom: 28px; }
   .inicio-body { background: var(--gris-fondo); border-radius: 28px 28px 0 0; padding: 28px 20px 40px; }
@@ -207,9 +210,11 @@
     <div class="inicio-hero">
       <div class="portada-img">
         <img src="portada.jpg" alt="Ruta Envases">
+        <div class="portada-texto">
+          <div class="portada-titulo">RUTA ENVASES</div>
+          <div class="portada-subtitulo">Temporada Baja</div>
+        </div>
       </div>
-      <h1>Ruta Envases</h1>
-      <p>Temporada Baja</p>
     </div>
     <div class="inicio-body">
       <h2>Recogidas</h2>
