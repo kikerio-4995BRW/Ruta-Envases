@@ -292,7 +292,13 @@
 <div class="pantalla" id="p-historial">
   <div class="header"><button class="btn-back" onclick="ir('p-inicio')">←</button><h1>Historial General</h1></div>
   <div class="scroll-body" id="historial-general-lista"></div>
-  <button class="btn-exportar" onclick="exportarCSV()">📥 Exportar a CSV</button>
+  <div style="display:flex;gap:8px;margin:0 16px 16px">
+    <button class="btn-exportar" style="margin:0;flex:1" onclick="exportarCSV()">📥 Exportar</button>
+    <label class="btn-exportar" style="margin:0;flex:1;cursor:pointer">
+      📤 Importar
+      <input type="file" accept=".csv" style="display:none" onchange="importarCSV(event)">
+    </label>
+  </div>
 </div>
 
 <!-- DESCARGAS -->
@@ -313,7 +319,13 @@
 <div class="pantalla" id="p-historial-descargas">
   <div class="header"><button class="btn-back" onclick="ir('p-descargas')">←</button><h1>Historial Descargas</h1></div>
   <div class="scroll-body" id="historial-descargas-body"></div>
-  <button class="btn-exportar naranja" onclick="exportarDescargasCSV()">📥 Exportar Descargas</button>
+  <div style="display:flex;gap:8px;margin:0 16px 16px">
+    <button class="btn-exportar naranja" style="margin:0;flex:1" onclick="exportarDescargasCSV()">📥 Exportar</button>
+    <label class="btn-exportar naranja" style="margin:0;flex:1;cursor:pointer">
+      📤 Importar
+      <input type="file" accept=".csv" style="display:none" onchange="importarDescargasCSV(event)">
+    </label>
+  </div>
 </div>
 
 <!-- MODAL -->
@@ -690,6 +702,118 @@ function descargarArchivo(contenido, nombre) {
   const a = document.createElement('a');
   a.href = url; a.download = nombre; a.click();
   URL.revokeObjectURL(url);
+}
+
+// IMPORTAR RECOGIDAS
+function importarCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const lines = e.target.result.split('\n').filter(l => l.trim());
+      // Saltar cabecera
+      const datos = lines.slice(1).map(line => {
+        const cols = parsearLineaCSV(line);
+        if (cols.length < 6) return null;
+        // Reconstruir fecha desde formato es-ES a ISO
+        const fechaStr = cols[0];
+        const fecha = parsearFechaES(fechaStr);
+        if (!fecha) return null;
+        return {
+          fecha: fecha,
+          pueblo: cols[1] || '',
+          sector: cols[2] || '',
+          dia: cols[3] || '',
+          contenedores: parseInt(cols[4]) || 0,
+          nivel: cols[5] || '',
+          incidencias: cols[6] || ''
+        };
+      }).filter(r => r !== null);
+
+      if (!datos.length) { mostrarToast('⚠️ No se encontraron datos válidos'); return; }
+
+      // Fusionar con existentes evitando duplicados por fecha
+      const existentes = obtenerRegistros();
+      const fechasExistentes = new Set(existentes.map(r => r.fecha));
+      const nuevos = datos.filter(r => !fechasExistentes.has(r.fecha));
+      const total = [...existentes, ...nuevos].sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
+      localStorage.setItem('registros_ruta', JSON.stringify(total));
+      mostrarToast(`✅ ${nuevos.length} registros importados`);
+      renderizarHistorialGeneral();
+    } catch(err) {
+      mostrarToast('⚠️ Error al leer el archivo');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// IMPORTAR DESCARGAS
+function importarDescargasCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const lines = e.target.result.split('\n').filter(l => l.trim());
+      const datos = lines.slice(1).map(line => {
+        const cols = parsearLineaCSV(line);
+        if (cols.length < 2) return null;
+        const fecha = parsearFechaES(cols[0]);
+        if (!fecha) return null;
+        return {
+          fecha: fecha,
+          kilos: parseFloat(cols[1]) || 0,
+          notas: cols[2] || ''
+        };
+      }).filter(r => r !== null);
+
+      if (!datos.length) { mostrarToast('⚠️ No se encontraron datos válidos'); return; }
+
+      const existentes = obtenerDescargas();
+      const fechasExistentes = new Set(existentes.map(d => d.fecha));
+      const nuevos = datos.filter(d => !fechasExistentes.has(d.fecha));
+      const total = [...existentes, ...nuevos].sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
+      localStorage.setItem('descargas_ruta', JSON.stringify(total));
+      mostrarToast(`✅ ${nuevos.length} descargas importadas`);
+      renderizarHistorialDescargas();
+    } catch(err) {
+      mostrarToast('⚠️ Error al leer el archivo');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// PARSEAR LÍNEA CSV respetando comillas
+function parsearLineaCSV(line) {
+  const cols = [];
+  let actual = '';
+  let dentroComillas = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { dentroComillas = !dentroComillas; }
+    else if (c === ',' && !dentroComillas) { cols.push(actual.trim()); actual = ''; }
+    else { actual += c; }
+  }
+  cols.push(actual.trim());
+  return cols;
+}
+
+// PARSEAR FECHA en formato es-ES (dd/mm/yyyy hh:mm:ss) a ISO
+function parsearFechaES(str) {
+  try {
+    // Formato: "25/4/2026, 17:30:00" o "25/04/2026 17:30"
+    const clean = str.replace(/"/g, '').trim();
+    const partes = clean.split(/[,\s]+/);
+    const fecha = partes[0].split('/');
+    const hora = partes[1] ? partes[1] : '00:00:00';
+    if (fecha.length < 3) return null;
+    const iso = `${fecha[2]}-${fecha[1].padStart(2,'0')}-${fecha[0].padStart(2,'0')}T${hora}`;
+    const d = new Date(iso);
+    return isNaN(d.getTime()) ? null : d.toISOString();
+  } catch { return null; }
 }
 
 function mostrarToast(msg) {
